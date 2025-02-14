@@ -6,14 +6,14 @@ import OpenAI from "openai";
 interface AiType{
     aianswer : string | null;
 }
-export default function AiChatePage(){
-    const [ai, setAi] =  useState<AiType>();
+export default function AiChatePage({ai}:{ai:AiType;}){
+    const [aian, setAian] =  useState<AiType>(ai);
     
-   
+  
 
     useEffect(()=>{
        
       
     },[])
-    return(<>{ai}</>);
+    return(<div>{aian.aianswer}</div>);
 }

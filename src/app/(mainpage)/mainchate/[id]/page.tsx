@@ -1,9 +1,10 @@
-import AiChatePage from "@/app/componets/aichate";
+import AiChatePage from "@/app/componets/chat/aichate";
+import UserChatPage from "@/app/componets/chat/userchat";
 import Link from "next/link";
 import OpenAI from "openai";
 
 export default async function ChatePage() {
-
+  
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -19,8 +20,11 @@ export default async function ChatePage() {
     ],
     store: true,
   });
-
-  console.log(completion.choices[0].message);
+  
+ 
+  const aiData = { aianswer: completion.choices[0].message.content };
+  // console.log(aiData);
+  
   return (
     <div
       className=""
@@ -28,13 +32,12 @@ export default async function ChatePage() {
     >
       <div style={{ background: 'skyblue', height: '100%', position: 'relative' }}>
         <div >
-          <AiChatePage />
+          <AiChatePage ai={aiData}/>
         </div>
-        <div style={{ background: '#999', height: '60px' }}>
-          보고 싶었어
-        </div>
+          <UserChatPage/>
+        
       </div>
-      <input type="text" placeholder="내용을 입력 해주세요" />
+      
     </div>
   );
 }
