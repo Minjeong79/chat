@@ -1,10 +1,15 @@
 import { create } from 'zustand';
+import { UchatType, UserLoginType } from '../../../lib/type';
 
-interface UchatType {
-    content:string;
-    setContent: (content: string) => void;
-}
-export const useUserChat  = create<UchatType>((set)=>({
+
+
+export const userUidStore = create<UserLoginType>((set) => ({
+    uid: "",
+    fullName: "",
+    setUserData: (user) => set(() => ({ uid: user.uid, fullName: user.fullName })),
+  }));
+
+export const useUserChatStore  = create<UchatType>((set)=>({
     content:'',
     setContent: (content) => set({ content }),
     
