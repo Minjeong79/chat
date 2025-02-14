@@ -1,6 +1,22 @@
 import { supabase } from "../utils/supabase/createClinet";
 
 
+
+
+export async function dogInsert() {
+    const { data, error } = await supabase
+        .from('dogdata')
+        .insert([
+            { id: '' },
+            { name: 'otherValue' },
+            { age: 'otherValue' },
+            { gender: 'otherValue' },
+            { personality: 'otherValue' },
+        ])
+        .select()
+
+}
+
 interface DataType {
     id: string;
     userid: string;
@@ -24,10 +40,10 @@ export async function dataInsert(datas: DataType) {
             },
         ])
         .select("*");
-        if (error) {
-            console.error("Error inserting data:", error);
-          } else {
-            console.log("Data inserted successfully:", data);
-          }
+    if (error) {
+        console.error("Error inserting data:", error);
+    } else {
+        console.log("Data inserted successfully:", data);
+    }
 }
 
