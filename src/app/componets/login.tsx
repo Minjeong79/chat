@@ -11,6 +11,7 @@ export default function LoginPage() {
   const {setUserData} = userUidStore();
   async function signInWithKakao() {
     try {
+      console.log('click')
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'kakao',
         options: {

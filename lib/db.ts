@@ -1,21 +1,5 @@
 import { supabase } from "../utils/supabase/createClinet";
-
-
-
-
-export async function dogInsert() {
-    const { data, error } = await supabase
-        .from('dogdata')
-        .insert([
-            { id: '' },
-            { name: 'otherValue' },
-            { age: 'otherValue' },
-            { gender: 'otherValue' },
-            { personality: 'otherValue' },
-        ])
-        .select()
-
-}
+import { dogDataType, GenderType } from "./type";
 
 interface DataType {
     id: string;
@@ -47,3 +31,68 @@ export async function dataInsert(datas: DataType) {
     }
 }
 
+//강아지 키워드
+export async function doggender() {
+    let { data, error } = await supabase
+        .from('doggender')
+        .select('*')
+    return data || [];
+}
+
+export async function dogpersonality() {
+    let { data, error } = await supabase
+        .from('dogpersonality')
+        .select('*')
+    if (error) {
+        throw error;
+    }
+    return data;
+}
+
+export async function dogLike() {
+    let { data, error } = await supabase
+        .from('doglike')
+        .select('*')
+    if (error) {
+        throw error;
+    }
+    return data;
+}
+
+export async function doghate() {
+    let { data, error } = await supabase
+        .from('doghate')
+        .select('*')
+    if (error) {
+        throw error;
+    }
+    return data;
+}
+
+export async function dogactive() {
+    let { data, error } = await supabase
+        .from('dogactive')
+        .select('*')
+    if (error) {
+        throw error;
+    }
+    return data;
+}
+
+export async function dogInsert(datas: dogDataType) {
+    const { data, error } = await supabase
+        .from('dogdata')
+        .insert([
+            {
+                id: datas.id,
+                name: datas.name,
+                age: datas.age,
+                gender: datas.gender,
+                personality: datas.personality,
+                like: datas.like,
+                hate: datas.hate,
+                active: datas.active,
+            },
+        ])
+        .select()
+}
