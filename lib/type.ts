@@ -15,6 +15,10 @@ export interface UchatType {
   content: string;
   setContent: (content: string) => void;
 }
+export interface DogIdType {
+  dogNumid: number;
+  setDogNumid: (dogNumid: number) => void;
+}
 
 export interface GenderType {
   gender: string;
@@ -78,13 +82,21 @@ export interface Activetype {
   crazy:string;
 }
 export interface dogDataType {
-  id: string;
+  id: number;
+  uuid: string;
   name: string;
   age: number;
   gender: string;
-  personality: {}
-  like: {}
-  hate: {}
-  active: {}
-  // created_at
+  personality: string[];
+  like:string[];
+  hate:string[];
+  active:string[];
+}
+
+export interface DataType {
+    id: number;
+    uuid: string;
+    dogid: number;
+    role: string;
+    content: string;
 }

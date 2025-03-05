@@ -1,16 +1,23 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { userUidStore } from "../store/store";
+import { dogNumIdStore, userUidStore } from "../store/store";
 import { Activetype, GenderType, Hatetype, Liketype, PersonalityType, UserType } from "../../../lib/type";
 import { supabase } from "../../../utils/supabase/createClinet";
 import { dogactive, doggender, doghate, dogInsert, dogLike, dogpersonality } from "../../../lib/db";
 import { customAlphabet } from "nanoid";
+import { useRouter } from "next/navigation";
+import { useStore } from "zustand";
 
 export default function DogKeyWordPage() {
-    const nanoid = customAlphabet("123456789abcdefg", 9);
-    const [useri, setUser] = useState<UserType>();
-    const { setUserData } = userUidStore();
+    const nanoid = customAlphabet("123456789", 8);
+    const nid = Number(nanoid());
+   const useri = useStore(userUidStore, (state)=>state.uid);
+   const fullName = useStore(userUidStore, (state)=>state.fullName);
+    
+    const { setDogNumid } = dogNumIdStore();
+    const [dogName, setDogName] =  useState('');
+    const [dogAge, setDogAge] =  useState(0);
     const [gender, setGender] = useState<GenderType[]>([]);
     const [personality, setpersonality] = useState<PersonalityType[]>([]);
     const [like, setLike] = useState<Liketype[]>([]);
@@ -23,29 +30,32 @@ export default function DogKeyWordPage() {
     const [selecthates, setSelectHates] = useState<string[]>([]);
     const [selectactives, setSelectActives] = useState<string[]>([]);
 
+   
     const [myDog, setMyDog] = useState([]);
+
+    const router = useRouter();
 
     const handlebtn = (i: string) => {
         setSelectGender(i);
     }
     const handlepersonality = (value: string) => {
         const combinedValues = [...selectKeyWords, value];
-        const arr: any = new Set(combinedValues)
+        const arr: any = [... new Set(combinedValues)]
         setSelectKeyWords(arr);
     }
     const handlelike = (value: string) => {
         const combinedValues = [...selectlikes, value];
-        const arr: any = new Set(combinedValues)
+        const arr: any = [... new Set(combinedValues)]
         setSelectLikes(arr);
     }
     const handlehate = (value: string) => {
         const combinedValues = [...selecthates, value];
-        const arr: any = new Set(combinedValues)
+        const arr: any = [... new Set(combinedValues)]
         setSelectHates(arr);
     }
     const handleactive = (value: string) => {
         const combinedValues = [...selectactives, value];
-        const arr: any = new Set(combinedValues)
+        const arr: any = [... new Set(combinedValues)]
         setSelectActives(arr);
     }
 
@@ -89,46 +99,39 @@ export default function DogKeyWordPage() {
             }
         }
         activeData();
-
-
-        const fetchLogin = async () => {
-            const { data, error } = await supabase.auth.getUser();
-
-            if (data.user) {
-                const user: UserType = {
-                    uid: data.user.id,
-                    fullName: data.user.user_metadata.full_name,
-                };
-                setUser(user);
-                setUserData(user)
-            }
-
-        }
-
-        fetchLogin();
-    }, [useri])
+      
+    }, [])
     
+    console.log(useri);
     const handleDogsubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         const datas = {
-            id :nanoid(),
-            name:'멍멍',
-            age:2,
+            id :nid,
+            uuid :useri,
+            name:dogName,
+            age:dogAge,
             gender : selectGender,
             personality : selectKeyWords,
             like : selectlikes,
             hate : selecthates,
             active : selectactives,
         }
+       
+        setDogNumid(nid)
+        sessionStorage.setItem('dogid', `${nid}`);
         dogInsert(datas);
+        router.push(`/keyword/mainchate/${nid}`)
+        
         console.log(datas);
     }
     return (
         <div>
+           <div style={{color:'blue', fontSize:'20px'}}>{fullName}</div>
             <h3>강아지 이름</h3>
             <form onSubmit={handleDogsubmit}>
-                <input type="text" placeholder="강아지 이름을 입력 해주세요" style={{ border: '1px solid #999' }} />
+                <input type="text" placeholder="강아지 이름을 입력 해주세요"  onChange={(e)=> setDogName(e.target.value)} style={{ border: '1px solid #999' }} />
+                <input type="text" placeholder="나이도 적어 주세요" onChange={(e)=> setDogAge(parseInt(e.target.value))} style={{ border: '1px solid #999' }} />
                 <h3 style={{ marginTop: '40px' }}>강아지 성별</h3>
                 <ul>
                     {gender.map((i, idx) => (

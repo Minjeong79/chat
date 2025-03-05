@@ -12,6 +12,9 @@ export default function AiChatePage({ai}:{ai:AiType;}){
   
 
     useEffect(()=>{
+        const talckChat =async ()=>{
+
+        }
        
       
     },[])
