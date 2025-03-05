@@ -8,7 +8,6 @@ export default function KeyWordPage() {
       style={{ width: "400px", margin: "auto", height: "600px" }}
     >
       <DogKeyWordPage />
-      
       <UserDogKeywordPage />
     </div>
   );

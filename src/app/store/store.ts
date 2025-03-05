@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { UchatType, UserLoginType } from '../../../lib/type';
+import { DogIdType, UchatType, UserLoginType } from '../../../lib/type';
 
 
 
@@ -14,3 +14,8 @@ export const useUserChatStore  = create<UchatType>((set)=>({
     setContent: (content) => set({ content }),
     
 }));
+
+export const dogNumIdStore = create<DogIdType>((set)=>({
+    dogNumid:0,
+    setDogNumid: (dogNumid) => set({ dogNumid }),
+}))

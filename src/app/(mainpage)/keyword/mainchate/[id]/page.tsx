@@ -2,9 +2,13 @@ import AiChatePage from "@/app/componets/chat/aichate";
 import UserChatPage from "@/app/componets/chat/userchat";
 import Link from "next/link";
 import OpenAI from "openai";
+import { dataSelect, dogDatas } from "../../../../../../lib/db";
 
 export default async function ChatePage() {
   
+  const dogDb = await dogDatas();
+  const userChat = await dataSelect();
+
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -34,7 +38,7 @@ export default async function ChatePage() {
         <div >
           <AiChatePage ai={aiData}/>
         </div>
-          <UserChatPage/>
+          <UserChatPage dogDb = {dogDb}/>
         
       </div>
       
