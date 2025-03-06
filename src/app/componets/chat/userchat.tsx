@@ -57,7 +57,6 @@ export default function UserChatPage({ dogDb }: { dogDb: dogDataType[] | null })
     // 로컬 스토리지에서 데이터 가져오기
     const storedData = sessionStorage.getItem('dogid');
 
-    console.log(`${storedData}---------------`);
     if (storedData) {
       // 데이터가 있으면, 서버로 POST 요청
       fetch('/api/storeData', {
@@ -65,7 +64,7 @@ export default function UserChatPage({ dogDb }: { dogDb: dogDataType[] | null })
         headers: {
           'Content-Type': 'application/json',  // JSON 형식으로 전송
         },
-        body: JSON.stringify({ data: storedData }),  // 전송할 데이터
+        body: JSON.stringify({ dataid: storedData }),  // 전송할 데이터
       })
         .then(response => response.json())
         .then(data => {
