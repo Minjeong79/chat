@@ -30,12 +30,13 @@ export default function UserChatPage({ dogDb }: { dogDb: dogDataType[] | null })
     console.error("dogDb가 null입니다. 데이터를 불러오는지 확인하세요.");
     return;
   }
-
-  const foundDog = dogDb.find(item => item.id === dogNumid);
-  if (!foundDog) {
-    console.error("해당 dogNumid와 일치하는 데이터가 없습니다.");
-    return;
-  }
+console.log(dogNumid);
+console.log(dogDb);
+  // const foundDog = dogDb.find(item => item.id === dogNumid);
+  // if (!foundDog) {
+  //   console.error("해당 dogNumid와 일치하는 데이터가 없습니다.");
+  //   return;
+  // }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
