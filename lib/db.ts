@@ -68,11 +68,17 @@ export async function dogInsert(datas: dogDataType) {
         .select()
 }
 
-export async function dogDatas() {
+export async function dogDatas(id: number): Promise<dogDataType[] | null> {
     let { data, error } = await supabase
         .from('dogdatas')
         .select('*')
-    return data;
+        .eq('id', id)
+
+    if (error) {
+        console.error("Error fetching data:", error);
+        return null;
+    }
+    return data as dogDataType[];
 }
 
 //강아지와 대화

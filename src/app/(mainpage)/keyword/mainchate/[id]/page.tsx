@@ -6,24 +6,15 @@ import { dataSelect, dogDatas } from "../../../../../../lib/db";
 import { cookies } from "next/headers";
 export default async function ChatePage() {
   
-  const dogDb = await dogDatas();
+  
   const userChat = await dataSelect();
 
 
   const cookieStore =await cookies();
-  const dogId = cookieStore.get("dogId")?.value;
-  console.log(`${dogId}999999999999999999999`)
-  // const res = await fetch('http://localhost:3000/api/storeData',{
-  //   method:"GET",
-  //   cache:'no-store',
-  //   credentials: 'include',
-  // })
-  // if (!res.ok) {
-  //   throw new Error("데이터를 불러오는 중 오류 발생");
-  // }
-  // const data = await res.json();
-  // console.log(`${data.dogId}------------------------------------`);
-  // console.log(`${JSON.stringify(data)}------------------------------------`);
+  const dogId = Number(cookieStore.get("dogId")?.value);
+  const dogDb = await dogDatas(dogId);
+ 
+  console.log(dogDb?.[0]?.gender);
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -31,11 +22,12 @@ export default async function ChatePage() {
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
 
+   
     messages: [
-      { role: "system", content: "성별은 암컷, 이름은 뚜뚜 좋아하는건 간식, 산책, 싫어 하는건 낯선 사람 죽어서 강아지 천사가 된 강아지로 대화 해" },
+      { role: "system", content: `성별은 ${dogDb?.[0]?.gender}, 이름은 ${dogDb?.[0]?.name} 성격은 ${dogDb?.[0]?.personality} 좋아하는 것 ${dogDb?.[0]?.like} 싫어하는 것 ${dogDb?.[0]?.hate} 하는 행동은 ${dogDb?.[0]?.active}인 강아지로 대화 해` },
       {
         role: "user",
-        content: "안녕. 뚜뚜야 보고 싶었어",
+        content: "안녕. 도구야",
       },
     ],
     store: true,
