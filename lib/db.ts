@@ -75,7 +75,8 @@ export async function dogDatas(id: number): Promise<dogDataType[] | null> {
         .eq('id', id)
 
     if (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error); // error 객체 출력
+        console.error("Error details:", error.message);
         return null;
     }
     return data as dogDataType[];
@@ -97,11 +98,12 @@ export async function dataInsert(datas: DataType) {
         .select();
 }
 
-export async function dataSelect() {
+export async function dataSelect(id: number): Promise<DataType[] | null> {
     let { data, error } = await supabase
         .from('chatdata')
         .select('*')
-    return dataInsert;
+        .eq('dogid', id)
+    return data;
 }
 
 

@@ -7,12 +7,14 @@ import { customAlphabet } from "nanoid";
 import { dogDataType, UserType } from "../../../../lib/type";
 import { supabase } from "../../../../utils/supabase/createClinet";
 import { useStore } from "zustand";
+import { userContentData } from "@/app/actions/actions";
 
 
-export default function UserChatPage({ dogDb }: { dogDb: dogDataType[] | null }) {
+export default function UserChatPage() {
   const nanoid = customAlphabet("123456789", 8);
   const nid = Number(nanoid());
   const dogNumid = useStore(dogNumIdStore, (state) => state.dogNumid);
+  const storedData = sessionStorage.getItem('dogid');
   const useri = useStore(userUidStore, (state) => state.uid);
 
 
@@ -25,39 +27,30 @@ export default function UserChatPage({ dogDb }: { dogDb: dogDataType[] | null })
     setChate(newContent);
     // setContent(newContent);
   }
-
-  if (!dogDb) {
-    console.error("dogDb가 null입니다. 데이터를 불러오는지 확인하세요.");
-    return;
-  }
-console.log(dogNumid);
-console.log(dogDb);
-  // const foundDog = dogDb.find(item => item.id === dogNumid);
-  // if (!foundDog) {
-  //   console.error("해당 dogNumid와 일치하는 데이터가 없습니다.");
-  //   return;
-  // }
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     const datas = {
       id: nid,
       uuid: useri,
-      dogid: dogNumid,
+      dogid: storedData,
       role: 'user',
       //   content:aiData.aianswer!, 
       content: userChate,
-      //   created_at: date.toISOString() 
     }
     // console.log(datas);
+    // const formData = new FormData();
+    // formData.append("message", userChate); 
+    // await userContentData(formData); 
     dataInsert(datas);
 
   }
 
   useEffect(() => {
     // 로컬 스토리지에서 데이터 가져오기
-    const storedData = sessionStorage.getItem('dogid');
-
+   
+    console.log(`${storedData} userpage!!!!!!!!!!!!`)
     if (storedData) {
       // 데이터가 있으면, 서버로 POST 요청
       fetch('/api/storeData', {
@@ -76,6 +69,8 @@ console.log(dogDb);
         });
     }
   }, []);
+
+  
 
   return (
     <>

@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
 
-    response.cookies.set("dogId", dataid, { 
+    response.cookies.set("dogid", dataid, { 
       httpOnly: true, 
       path: "/", 
       secure: process.env.NODE_ENV === "production", // 배포 환경에서만 secure 적용

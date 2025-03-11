@@ -102,7 +102,6 @@ export default function DogKeyWordPage() {
       
     }, [])
     
-    console.log(useri);
     const handleDogsubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
