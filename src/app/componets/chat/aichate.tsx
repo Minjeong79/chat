@@ -2,21 +2,25 @@
 
 import { useEffect, useState } from "react";
 import OpenAI from "openai";
+import { DataType } from "../../../../lib/type";
+import UserChatPage from "./userchat";
 
-interface AiType{
-    aianswer : string | null;
+interface AiType {
+    aianswer: string | null;
 }
-export default function AiChatePage({ai}:{ai:AiType;}){
-    const [aian, setAian] =  useState<AiType>(ai);
-    
-  
+export default function AiChatePage({ ai, userChat }: { ai: AiType; userChat: DataType[]; }) {
+    const [aian, setAian] = useState<AiType>(ai);
 
-    useEffect(()=>{
-        const talckChat =async ()=>{
+    console.log(userChat);
+
+    useEffect(() => {
+        const talckChat = async () => {
 
         }
-       
-      
-    },[])
-    return(<div>{aian.aianswer}</div>);
+
+
+    }, [])
+    return (<div>{aian.aianswer}<br />
+     <UserChatPage />
+        </div>);
 }
