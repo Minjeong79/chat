@@ -5,17 +5,5 @@ export async function userContentData(formData: FormData) {
 
     console.log("사용자가 입력한 값:", userInput);
 
-    return `서버에서 받은 값: ${userInput}`;
+    return userInput;
 }
-
-
-
-
-
-
-
-
-
-
-
-
