@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
 
+    
     response.cookies.set("dogid", dataid, { 
       httpOnly: true, 
       path: "/", 
