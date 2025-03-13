@@ -49,11 +49,9 @@ export default function UserChatPage() {
 
   useEffect(() => {
     // 로컬 스토리지에서 데이터 가져오기
-   
-    console.log(`${storedData} userpage!!!!!!!!!!!!`)
     if (storedData) {
       // 데이터가 있으면, 서버로 POST 요청
-      fetch('/api/storeData', {
+      fetch('/api/postdogid', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',  // JSON 형식으로 전송
@@ -68,7 +66,7 @@ export default function UserChatPage() {
           console.log('서버 요청 오류:', error);  // 에러 처리
         });
     }
-  }, []);
+  }, [storedData]);
 
   
 
