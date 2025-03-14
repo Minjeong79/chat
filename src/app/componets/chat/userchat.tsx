@@ -14,7 +14,7 @@ export default function UserChatPage() {
   const nanoid = customAlphabet("123456789", 8);
   const nid = Number(nanoid());
   const dogNumid = useStore(dogNumIdStore, (state) => state.dogNumid);
-  const storedData = sessionStorage.getItem('dogid');
+  
   const useri = useStore(userUidStore, (state) => state.uid);
 
 
@@ -34,7 +34,7 @@ export default function UserChatPage() {
     const datas = {
       id: nid,
       uuid: useri,
-      dogid: storedData,
+      dogid: dogNumid,
       role: 'user',
       //   content:aiData.aianswer!, 
       content: userChate,
@@ -47,27 +47,7 @@ export default function UserChatPage() {
 
   }
 
-  useEffect(() => {
-    // 로컬 스토리지에서 데이터 가져오기
-    if (storedData) {
-      // 데이터가 있으면, 서버로 POST 요청
-      fetch('/api/postdogid', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',  // JSON 형식으로 전송
-        },
-        body: JSON.stringify({ dataid: storedData }),  // 전송할 데이터
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('서버 응답:', data);  // 서버의 응답 처리
-        })
-        .catch(error => {
-          console.log('서버 요청 오류:', error);  // 에러 처리
-        });
-    }
-  }, [storedData]);
-
+ 
   
 
   return (

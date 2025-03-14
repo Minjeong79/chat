@@ -11,15 +11,7 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
 
-    
-    response.cookies.set("dogid", dataid, { 
-      httpOnly: true, 
-      path: "/", 
-      secure: process.env.NODE_ENV === "production", // 배포 환경에서만 secure 적용
-      maxAge: 60 * 60 * 24, // 1일 유지
-    });
-    
-
+  
     return response;
   } catch (error) {
     return NextResponse.json(

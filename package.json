@@ -12,6 +12,7 @@
     "@supabase/supabase-js": "^2.48.1",
     "nanoid": "^5.1.2",
     "next": "15.1.7",
+    "next-iron-session": "^4.2.0",
     "openai": "^4.83.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
