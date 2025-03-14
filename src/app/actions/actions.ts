@@ -7,3 +7,17 @@ export async function userContentData(formData: FormData) {
 
     return userInput;
 }
+
+
+export async function dogIddData(formData: FormData) {
+    const dogid = formData.get("message"); 
+
+    console.log("dogid 값이다아아아아아아아:", dogid);
+
+    return dogid;
+}
+
+export async function openAikey(formData: FormData) {
+    const aikey = formData.get("message"); 
+    return aikey;
+}
