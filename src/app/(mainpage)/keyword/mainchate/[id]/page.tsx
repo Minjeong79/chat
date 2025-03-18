@@ -1,5 +1,4 @@
 import AiChatePage from "@/app/componets/chat/aichate";
-import UserChatPage from "@/app/componets/chat/userchat";
 import Link from "next/link";
 import OpenAI from "openai";
 import { dataSelect, dogDatas } from "../../../../../../lib/db";
@@ -40,14 +39,16 @@ export default async function ChatePage() {
   const dogDb = await dogDatas(dogId.dataid);
   const userChat = await dataSelect(dogId.dataid);
 
+  console.log(userChat);
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
-      { role: "system", content: `성별은 ${dogDb?.[0]?.gender}, 이름은 ${dogDb?.[0]?.name} 성격은 ${dogDb?.[0]?.personality} 좋아하는 것 ${dogDb?.[0]?.like} 싫어하는 것 ${dogDb?.[0]?.hate} 하는 행동은 ${dogDb?.[0]?.active}인 강아지야 넌 처음 대화 할때 이름만 말 하면서 대화 해` },
       {
         role: "user",
         content: `${userChat?.slice(-1)[0]?.content}`,
       },
+      { role: "assistant", content: `성별은 ${dogDb?.[0]?.gender}, 이름은 ${dogDb?.[0]?.name} 성격은 ${dogDb?.[0]?.personality} 좋아하는 것 ${dogDb?.[0]?.like} 싫어하는 것 ${dogDb?.[0]?.hate} 하는 행동은 ${dogDb?.[0]?.active}인 강아지로 대화해 사용자가 먼저 대화를 하면 대답해` },
+      
     ],
     store: true,
   });
