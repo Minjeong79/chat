@@ -42,11 +42,7 @@ export default function AiChatePage({ ai, userChat }: { ai: AiType; userChat: Da
       //   content:aiData.aianswer!, 
       content: useriChate,
     }
-    // console.log(datas);
-    const formData = new FormData();
-    formData.append("message", useriChate);
-    await userContentData(formData);
-
+    
     dataInsert(datas);
     router.refresh();
   }
@@ -74,6 +70,8 @@ export default function AiChatePage({ ai, userChat }: { ai: AiType; userChat: Da
           console.log('서버 요청 오류:', error);  // 에러 처리
         });
     }
+
+    console.log("AI 답변 업데이트:", aian.aianswer);
     const talckChat = async () => {
       if (aian.aianswer) {
         const datas = {
@@ -89,15 +87,28 @@ export default function AiChatePage({ ai, userChat }: { ai: AiType; userChat: Da
     talckChat();
   }, [aian.aianswer]);
 
-  const [prevUserChat, setPrevUserChat] = useState<DataType[]>(userChat);
-  
   // useEffect(() => {
-  //   // userChat이 변경된 경우에만 상태 업데이트
-  //   if (JSON.stringify(userChat) !== JSON.stringify(prevUserChat)) {
-  //     setPrevUserChat(userChat);
+  //   if (useriChate) {
+  //     // 데이터가 있으면, 서버로 POST 요청
+  //     fetch('/api/userpost', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',  // JSON 형식으로 전송
+  //       },
+  //       body: JSON.stringify({ userContent: useriChate }),  // 전송할 데이터
+  //     })
+  //       .then(response => response.json())
+  //       .then(data => {
+  //         console.log('서버 응답:', data);  // 서버의 응답 처리
+  //         router.refresh();
+  //       })
+  //       .catch(error => {
+  //         console.log('서버 요청 오류:', error);  // 에러 처리
+  //       });
   //   }
-  // }, [userChat, prevUserChat]);
-
+   
+  // }, [userChat]);
+  
   return (<div>
     {aian.aianswer}<br />
     <ul>
