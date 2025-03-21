@@ -24,8 +24,10 @@ export default async function ChatePage() {
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
-  
   const dogId = await getDogId();
+  console.log(`${dogId.dataid} 여긴 서버 컴포넌트`);
+  const dogDb = await dogDatas(dogId.dataid);
+  const userChat = await dataSelect(dogId.dataid);
   // const userData = await getUserData();
   // console.log(`${userData.userContent} 여기 값이다!!!!!!!!!!!!!!!!!!`);
   if (!dogId || !dogId.dataid) {
@@ -39,13 +41,27 @@ export default async function ChatePage() {
         style={{ width: "400px", margin: "auto", height: "600px" }}
       >
         <div style={{ background: 'skyblue', height: '100%', position: 'relative' }}>
-          <AiChatePage ai={aiData} userChat={userChat ?? []} />
+          <AiChatePage ai={aiData} userChat={userChat ?? []} dogDb={dogDb ?? []} dogId={dogId ?? 0}/>
         </div>
       </div>
     );
+  }else {
+    fetch('http://localhost:3000/api/openpostai',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',  // JSON 형식으로 전송
+      },
+      body: JSON.stringify({ dataid: dogId.dataid }),
+    }).then(response => response.json())
+    .then(data => {
+      console.log('서버 응답:', data);  // 서버의 응답 처리
+      
+    })
+    .catch(error => {
+      console.log('서버 요청 오류:', error);  // 에러 처리
+    });
   }
-  const dogDb = await dogDatas(dogId.dataid);
-  const userChat = await dataSelect(dogId.dataid);
+  
 
   // const completion = await openai.chat.completions.create({
   //   model: "gpt-4o-mini",
@@ -92,7 +108,7 @@ export default async function ChatePage() {
     >
       <div style={{ background: 'skyblue', height: '100%', position: 'relative' }}>
         <div >
-          <AiChatePage ai={aiData} userChat={userChat ?? []} />
+          <AiChatePage ai={aiData} userChat={userChat ?? []} dogDb={dogDb ?? []}  dogId={dogId ?? 0}/>
 
         </div>
 
