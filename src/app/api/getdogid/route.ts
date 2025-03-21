@@ -4,7 +4,7 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const dataid = searchParams.get("dataid"); 
-    console.log(`${dataid} 여기 온거 맞아?`)
+   
     if (!dataid) {
       return NextResponse.json(
         { message: "dataid query parameter is required." },
