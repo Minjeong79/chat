@@ -75,8 +75,8 @@ export async function dogDatas(id: number): Promise<dogDataType[] | null> {
         .eq('id', id)
 
     if (error) {
-        console.error("Error fetching data:", error); // error 객체 출력
-        console.error("Error details:", error.message);
+        // console.error("Error fetching data:", error); // error 객체 출력
+        // console.error("Error details:", error.message);
         return null;
     }
     return data as dogDataType[];
