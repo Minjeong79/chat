@@ -98,12 +98,19 @@ export async function dataInsert(datas: DataType) {
         .select();
 }
 
-export async function dataSelect(id: number): Promise<DataType[] | null> {
+export async function dataSelectAi(id: number,role:string): Promise<DataType[] | null> {
+    let { data, error } = await supabase
+        .from('chatdata')
+        .select('*')
+        .eq('dogid', id)
+        .eq('role', role)
+    return data;
+}
+
+export async function dataSelectAll(id: number): Promise<DataType[] | null> {
     let { data, error } = await supabase
         .from('chatdata')
         .select('*')
         .eq('dogid', id)
     return data;
 }
-
-
