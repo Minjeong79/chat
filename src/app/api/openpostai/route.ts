@@ -24,53 +24,53 @@ export async function POST(req: Request) {
     }
 
     console.log(dogDb);
-    if (dogDb?.[0]?.name) {
-      // 강아지 이름이 있을 경우
-      if (aiData && aiData?.length > 0) {
-        // 강아지 이름이 있고, AI 데이터가 있을 경우 기존 데이터를 바탕으로 대화를 이어감
-        const response = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
-          messages: [
-            {
-              role: "assistant",
-              content: `성별은 ${dogDb?.[0]?.gender}, 이름은 ${dogDb?.[0]?.name} 성격은 ${dogDb?.[0]?.personality} 좋아하는 것 ${dogDb?.[0]?.like} 싫어하는 것 ${dogDb?.[0]?.hate} 하는 행동은 ${dogDb?.[0]?.active}인 강아지로 대화해 사용자가 먼저 대화를 하면 대답해.`,
-            },
-            {
-              role: "user",
-              content: aiData?.map((chat) => chat.content).join("\n") || "대화 기록이 없습니다.",
-            },
-          ],
-          response_format: { type: "text" },
-          temperature: 1,
-          max_completion_tokens: 2048,
-          top_p: 1,
-          frequency_penalty: 0,
-          presence_penalty: 0,
-          store: true,
-        });
-    
-        return NextResponse.json({ aianswer: response.choices[0].message.content });
-      } else {
-        // 강아지 이름이 있고, AI 데이터가 없을 경우 새로운 대화를 시작
-        const response = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
-          messages: [
-            {
-              role: "assistant",
-              content: `성별은 ${dogDb?.[0]?.gender}, 이름은 ${dogDb?.[0]?.name} 성격은 ${dogDb?.[0]?.personality} 좋아하는 것 ${dogDb?.[0]?.like} 싫어하는 것 ${dogDb?.[0]?.hate} 하는 행동은 ${dogDb?.[0]?.active}인 강아지로 대화해 사용자가 먼저 대화를 하면 대답해.`,
-            },
-          ],
-          response_format: { type: "text" },
-          temperature: 1,
-          max_completion_tokens: 2048,
-          top_p: 1,
-          frequency_penalty: 0,
-          presence_penalty: 0,
-          store: true,
-        });
-        
-        return NextResponse.json({ aianswer: response.choices[0].message.content });
-      }
+    console.log(aiData);
+    console.log(userData);
+    if (userData && userData?.length > 0) {
+      // 강아지 이름이 있고, AI 데이터가 있을 경우 기존 데이터를 바탕으로 대화를 이어감
+      console.log(`기존 대화로 시작`);
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "assistant",
+            content: `${aiData} 기존 데이터 기반과 사용자와 대화`,
+          },
+          {
+            role: "user",
+            content: userData?.map((chat) => chat.content).join("\n") || "대화 기록이 없습니다.",
+          },
+        ],
+        response_format: { type: "text" },
+        temperature: 1,
+        max_completion_tokens: 2048,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        store: true,
+      });
+  
+      return NextResponse.json({ aianswer: response.choices[0].message.content });
+    } else {
+      // 강아지 이름이 있고, AI 데이터가 없을 경우 새로운 대화를 시작
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "assistant",
+            content: `성별은 ${dogDb?.[0]?.gender}, 이름은 ${dogDb?.[0]?.name} 성격은 ${dogDb?.[0]?.personality} 좋아하는 것 ${dogDb?.[0]?.like} 싫어하는 것 ${dogDb?.[0]?.hate} 하는 행동은 ${dogDb?.[0]?.active}인 강아지로 대화해 사용자가 먼저 대화를 하면 대답해.`,
+          },
+        ],
+        response_format: { type: "text" },
+        temperature: 1,
+        max_completion_tokens: 2048,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        store: true,
+      });
+      
+      return NextResponse.json({ aianswer: response.choices[0].message.content });
     }
     
     // return NextResponse.json({ aianswer: response.choices[0].message.content });
