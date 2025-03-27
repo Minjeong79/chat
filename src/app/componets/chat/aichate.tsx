@@ -66,7 +66,7 @@ export default function AiChatePage() {
         });
     }
   },[])
-
+         
   useEffect(() => {
     if (aiChat) { 
       const talckChat = async () => {
@@ -92,6 +92,10 @@ export default function AiChatePage() {
     handleData();
     
   }, [aiChat, content]);
+
+  useEffect(()=>{
+    
+  },[])
   
   return (<div>
     {/* <div style={{color:'lime'}}>{aiChat}</div> */}
