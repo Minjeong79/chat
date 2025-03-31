@@ -65,7 +65,7 @@ export default function AiChatePage() {
           console.log('서버 요청 오류:', error);  // 에러 처리
         });
     }
-  },[])
+  },[])    
          
   useEffect(() => {
     if (aiChat) { 
