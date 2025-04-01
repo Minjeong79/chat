@@ -49,6 +49,10 @@ export async function dogactive() {
     return data;
 }
 
+ export async function doglocation() {
+    
+ }
+
 export async function dogInsert(datas: dogDataType) {
     const { data, error } = await supabase
         .from('dogdatas')
