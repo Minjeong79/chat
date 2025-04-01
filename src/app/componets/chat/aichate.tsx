@@ -31,19 +31,41 @@ export default function AiChatePage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     const datas = {
       id: nid,
       uuid: useri,
       dogid: dogNumid,
       role: 'user',
       content: useriChate,
+    };
+  
+    try {
+      await dataInsert(datas); 
+  
+      const response = await fetch('/api/openpostai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // JSON 형식으로 전송
+        },
+        body: JSON.stringify({dataid: dogNumid, role : 'user', userContent: useriChate }), // 전송할 데이터
+      });
+  
+      if (!response.ok) {
+        throw new Error('서버 응답 실패');
+      }
+  
+      const data = await response.json();
+      setaiChat(data.aianswer);
+      setContent(true);
+      console.log('서버 응답:', data);
+    } catch (error) {
+      console.error('서버 요청 오류:', error);
     }
-    dataInsert(datas);
-    setUseriChate('');
-   
+  
+    setUseriChate(''); 
+  
   }
-
   
   useEffect(()=>{
     if (dogNumid) {
@@ -53,7 +75,7 @@ export default function AiChatePage() {
         headers: {
           'Content-Type': 'application/json',  // JSON 형식으로 전송
         },
-        body: JSON.stringify({ dataid: dogNumid, role : 'aidog' }),  // 전송할 데이터
+        body: JSON.stringify({ dataid: dogNumid, role : 'aidog' ,userContent: ''}),  // 전송할 데이터
       })
         .then(response => response.json())
         .then(data => {
