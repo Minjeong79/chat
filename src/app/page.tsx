@@ -4,15 +4,15 @@ import LoginPage from "./componets/login";
 
 export default function Home() {
 
- 
+
 
   return (
-    <div className="" style={{width:'400px', margin:'auto', height:'600px'}}>
-      <main className="">
-       <div> 메인 이미지</div>
-        <LoginPage/>
-       <Link href="/keyword"> 시작 버튼</Link>
+    <section className="sm:w-2/5 mx-auto bg-secondary h-screen relative">
+      <main className="h-96 bg-white">
+        <div> 메인 이미지</div>
+        <LoginPage />
+        
       </main>
-    </div>
+    </section>
   );
 }
