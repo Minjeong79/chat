@@ -50,11 +50,11 @@ export default function AiChatePage() {
         },
         body: JSON.stringify({dataid: dogNumid, role : 'user', userContent: useriChate }), // 전송할 데이터
       });
-  
+      setUseriChate(''); 
       if (!response.ok) {
         throw new Error('서버 응답 실패');
       }
-  
+      
       const data = await response.json();
       setaiChat(data.aianswer);
       setContent(true);
@@ -63,7 +63,7 @@ export default function AiChatePage() {
       console.error('서버 요청 오류:', error);
     }
   
-    setUseriChate(''); 
+    
   
   }
   
@@ -120,14 +120,11 @@ export default function AiChatePage() {
   },[])
   
   return (<div>
-    {/* <div style={{color:'lime'}}>{aiChat}</div> */}
-    <br />
-    <br />
     <ul>
       {allData.map((item, idx) => (<li key={idx}>{item.content}</li>))}
     </ul>
     <form onSubmit={handleSubmit} style={{ border: '2px solid red' }}>
-      <input type="text" onChange={handleChange} placeholder="내용을 입력 해주세요" />
+      <input type="text"  value={useriChate} onChange={handleChange} placeholder="내용을 입력 해주세요" />
 
       <button type="submit">보내기</button>
     </form>
