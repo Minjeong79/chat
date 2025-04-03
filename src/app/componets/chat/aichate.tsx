@@ -2,17 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { customAlphabet } from "nanoid";
-import { DataType, dogDataType } from "../../../../lib/type";
+import { DataType } from "../../../../lib/type";
 import { useStore } from "zustand";
 import { dogNumIdStore, userUidStore } from "@/app/store/store";
-import { dataInsert, dataSelectAi, dataSelectAll, } from "../../../../lib/db";
-import { useRouter } from "next/navigation";
-import { userContentData } from "@/app/actions/actions";
+import { dataInsert, dataSelectAll, } from "../../../../lib/db";
 
-interface AiType {
-  aianswer: string | null;
-}
-// export default function AiChatePage({ userChat, dogId ,dogDb}: { userChat: DataType[]; dogId:number; dogDb:dogDataType[]}) {
 export default function AiChatePage() {
   const nanoid = customAlphabet("123456789", 8);
   const nid = Number(nanoid());
@@ -21,17 +15,17 @@ export default function AiChatePage() {
 
   const [useriChate, setUseriChate] = useState<string>('');
   const [aiChat, setaiChat] = useState<string>('');
-  const [content, setContent] =  useState(false);
-  const [allData, setAllData] =  useState<DataType[]>([]);
+  const [content, setContent] = useState(false);
+  const [allData, setAllData] = useState<DataType[]>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
     setUseriChate(newContent);
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     const datas = {
       id: nid,
       uuid: useri,
@@ -39,22 +33,22 @@ export default function AiChatePage() {
       role: 'user',
       content: useriChate,
     };
-  
+
     try {
-      await dataInsert(datas); 
-  
+      await dataInsert(datas);
+
       const response = await fetch('/api/openpostai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // JSON 형식으로 전송
         },
-        body: JSON.stringify({dataid: dogNumid, role : 'user', userContent: useriChate }), // 전송할 데이터
+        body: JSON.stringify({ dataid: dogNumid, role: 'user', userContent: useriChate }), // 전송할 데이터
       });
-      setUseriChate(''); 
+      setUseriChate('');
       if (!response.ok) {
         throw new Error('서버 응답 실패');
       }
-      
+
       const data = await response.json();
       setaiChat(data.aianswer);
       setContent(true);
@@ -62,12 +56,9 @@ export default function AiChatePage() {
     } catch (error) {
       console.error('서버 요청 오류:', error);
     }
-  
-    
-  
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     if (dogNumid) {
       // 데이터가 있으면, 서버로 POST 요청
       fetch('/api/openpostai', {
@@ -75,7 +66,7 @@ export default function AiChatePage() {
         headers: {
           'Content-Type': 'application/json',  // JSON 형식으로 전송
         },
-        body: JSON.stringify({ dataid: dogNumid, role : 'aidog' ,userContent: ''}),  // 전송할 데이터
+        body: JSON.stringify({ dataid: dogNumid, role: 'aidog', userContent: '' }),  // 전송할 데이터
       })
         .then(response => response.json())
         .then(data => {
@@ -87,46 +78,50 @@ export default function AiChatePage() {
           console.log('서버 요청 오류:', error);  // 에러 처리
         });
     }
-  },[])    
-         
+  }, [])
+
   useEffect(() => {
-    if (aiChat) { 
+    if (aiChat) {
       const talckChat = async () => {
         const datas = {
           id: nid,
           uuid: useri,
           dogid: dogNumid,
           role: 'aidog',
-          content: aiChat, 
+          content: aiChat,
         };
         await dataInsert(datas);
-        setContent(true); 
+        setContent(true);
       };
       talckChat();
     }
 
-    const handleData = async ()=>{
+    const handleData = async () => {
       const data = await dataSelectAll(dogNumid);
-      if(data){
+      if (data) {
         setAllData(data);
       }
     }
     handleData();
-    
+
   }, [aiChat, content]);
 
-  useEffect(()=>{
-    
-  },[])
-  
-  return (<div>
+  useEffect(() => {
+
+  }, [])
+
+  return (<section>
     <ul>
       {allData.map((item, idx) => (<li key={idx}>{item.content}</li>))}
     </ul>
-    <form onSubmit={handleSubmit} style={{ border: '2px solid red' }}>
-      <input type="text"  value={useriChate} onChange={handleChange} placeholder="내용을 입력 해주세요" />
+    <form onSubmit={handleSubmit} className="relative h-screen">
+      <div className="absolute bottom-0 w-full bg-secondary border-t border-slate-500 p-2" >
+        <textarea className="h-20 w-full bg-inherit border-0" value={useriChate} onChange={handleChange} placeholder="내용을 입력 해주세요" />
+        <div className="w-full flex justify-end ">
+        <button type="submit" className="rounded-lg bg-blue-600 p-2">보내기</button>
+        </div>
+      </div>
 
-      <button type="submit">보내기</button>
     </form>
-  </div>);
+  </section>);
 }

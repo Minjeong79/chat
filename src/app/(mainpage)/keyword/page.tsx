@@ -1,14 +1,8 @@
-import Link from "next/link";
-import UserDogKeywordPage from "../../componets/userDogkeyword";
 import DogKeyWordPage from "@/app/componets/dogkeyword";
 export default function KeyWordPage() {
   return (
-    <div
-      className=""
-      style={{ width: "400px", margin: "auto", height: "600px" }}
-    >
+    <section className="sm:w-2/5 mx-auto bg-secondary h-screen relative overflow-x-hidden overflow-y-scroll">
       <DogKeyWordPage />
-      <UserDogKeywordPage />
-    </div>
+    </section>
   );
 }
