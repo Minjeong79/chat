@@ -55,11 +55,10 @@ export default function LoginPage() {
 
   return (
     <section className="lg mx-auto">
-      <div className="text-right">{useri?.fullName && useri.fullName}</div>
-      <div style={{ color: 'blue', fontSize: '20px' }}>{ }</div>
-      {useri?.uid ? <button className="" onClick={logoutKakao}>로그아웃 </button> : <button className="border rounded-xl px-3 py-4 block min-w-min" onClick={signInWithKakao}>카카오 로그인 </button>}
-      {useri?.uid && <div className="text-center absolute bottom-0 right-0 left-0">
-        <Link href="/keyword" className="border rounded-xl px-3 py-4 block min-w-min"> 시작 버튼</Link>
+      <div className="p-2">{useri?.fullName && useri.fullName} 보호자 님</div> 
+      {useri?.uid ? <button className="absolute right-0 p-1 bg-yellow-600 top-2" onClick={logoutKakao}>로그아웃 </button> : <button className="absolute bottom-6 v right-0 left-0 border-0 rounded-xl px-3 py-4 block w-4/5 bg-amber-400 mx-auto" onClick={signInWithKakao}>카카오 로그인 </button>}
+      {useri?.uid && <div className="text-center absolute bottom-6 right-0 left-0">
+        <Link href="/keyword" className="border-0 rounded-xl px-3 py-4 block min-w-min w-4/5 mx-auto bg-blue-600 text-white"> 시작 버튼</Link>
       </div>}
     </section>
   )

@@ -12,25 +12,25 @@ import { useStore } from "zustand";
 export default function DogKeyWordPage() {
     const nanoid = customAlphabet("123456789", 8);
     const nid = Number(nanoid());
-   const useri = useStore(userUidStore, (state)=>state.uid);
-   const fullName = useStore(userUidStore, (state)=>state.fullName);
-    
+    const useri = useStore(userUidStore, (state) => state.uid);
+    const fullName = useStore(userUidStore, (state) => state.fullName);
+
     const { setDogNumid } = dogNumIdStore();
-    const [dogName, setDogName] =  useState('');
-    const [dogAge, setDogAge] =  useState(0);
+    const [dogName, setDogName] = useState('');
+    const [dogAge, setDogAge] = useState(0);
     const [gender, setGender] = useState<GenderType[]>([]);
     const [personality, setpersonality] = useState<PersonalityType[]>([]);
     const [like, setLike] = useState<Liketype[]>([]);
     const [hate, setHate] = useState<Hatetype[]>([]);
     const [active, setActive] = useState<Activetype[]>([]);
 
-    const [selectGender, setSelectGender] =  useState("");
+    const [selectGender, setSelectGender] = useState("");
     const [selectKeyWords, setSelectKeyWords] = useState<string[]>([]);
     const [selectlikes, setSelectLikes] = useState<string[]>([]);
     const [selecthates, setSelectHates] = useState<string[]>([]);
     const [selectactives, setSelectActives] = useState<string[]>([]);
 
-   
+
     const [myDog, setMyDog] = useState([]);
 
     const router = useRouter();
@@ -99,64 +99,72 @@ export default function DogKeyWordPage() {
             }
         }
         activeData();
-      
+
     }, [])
-    
-    const handleDogsubmit = (e:React.FormEvent<HTMLFormElement>) => {
+
+    const handleDogsubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
-        const datas = {
-            id :nid,
-            uuid :useri,
-            name:dogName,
-            age:dogAge,
-            gender : selectGender,
-            personality : selectKeyWords,
-            like : selectlikes,
-            hate : selecthates,
-            active : selectactives,
+
+        if (!fullName) {
+            alert("로그인을 다시 해주세요😣");
+            return;
         }
-       
+    
+
+        const datas = {
+            id: nid,
+            uuid: useri,
+            name: dogName,
+            age: dogAge,
+            gender: selectGender,
+            personality: selectKeyWords,
+            like: selectlikes,
+            hate: selecthates,
+            active: selectactives,
+        }
+
         setDogNumid(nid)
         sessionStorage.setItem('dogid', `${nid}`);
         dogInsert(datas);
         router.push(`/keyword/mainchate/${nid}`)
-        
+
         console.log(datas);
     }
     return (
-        <div>
-           <div style={{color:'blue', fontSize:'20px'}}>{fullName}</div>
-            <h3>강아지 이름</h3>
-            <form onSubmit={handleDogsubmit}>
-                <input type="text" placeholder="강아지 이름을 입력 해주세요"  onChange={(e)=> setDogName(e.target.value)} style={{ border: '1px solid #999' }} />
-                <input type="text" placeholder="나이도 적어 주세요" onChange={(e)=> setDogAge(parseInt(e.target.value))} style={{ border: '1px solid #999' }} />
-                <h3 style={{ marginTop: '40px' }}>강아지 성별</h3>
-                <ul>
+        <section className="mx-auto bg-secondary h-screen relative">
+            <h2 className="text-center">{fullName} 의 강아지는?</h2>
+           
+            <form onSubmit={handleDogsubmit} className="p-2 ">
+            <h3 className="text-sm text-slate-300 mb-2">강아지 이름</h3>
+                <div className="flex gap-x-2.5">
+                    <input type="text" maxLength={20} placeholder="강아지 이름" onChange={(e) => setDogName(e.target.value)} required/>
+                    <input type="number" min="0" max="20" maxLength={5} placeholder="강아지 나이" onChange={(e) => setDogAge(parseInt(e.target.value))} required/>
+                </div>
+                <h3 className="text-sm mt-10 text-slate-300 mb-2">강아지 성별🐶</h3>
+                <ul className="flex flex-wrap gap-x-2.5">
                     {gender.map((i, idx) => (
-                        <li key={idx} style={{ border: '1px solid #999' }}><button type="button" onClick={() => handlebtn(i.gender)}>{i.gender}</button></li>
+                        <li key={idx}><button type="button" className="rounded-lg bg-slate-700 py-2.5 px-5" onClick={() => handlebtn(i.gender)}>{i.gender}</button></li>
                     ))}
                 </ul>
-                <h3 style={{ marginTop: '40px' }}>강아지 성격</h3>
-                <ul>
-                    {personality[0] && (Object.entries(personality[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx} style={{ border: '1px solid #999' }}><button type="button" onClick={() => handlepersonality(value)}>{value}</button></li>)))}
+                <h3 className="text-sm mt-10 text-slate-300 mb-2">강아지 성격😏</h3>
+                <ul className="flex flex-wrap gap-2.5">
+                    {personality[0] && (Object.entries(personality[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx}><button type="button" className="rounded-lg bg-slate-700 py-2.5 px-5" onClick={() => handlepersonality(value)}>{value}</button></li>)))}
                 </ul>
-                <br />
-                <ul className="">
-                    {like[0] && (Object.entries(like[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx} style={{ border: '1px solid #999' }}><button type="button" onClick={() => handlelike(value)}>{value}</button></li>)))}
+                <h3 className="text-sm mt-10 text-slate-300 mb-2">좋아해🎈</h3>
+                <ul className="flex flex-wrap gap-2.5">
+                    {like[0] && (Object.entries(like[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx}><button type="button" className="rounded-lg bg-slate-700 py-2.5 px-5" onClick={() => handlelike(value)}>{value}</button></li>)))}
                 </ul>
-                <br />
-                <ul className="">
-                    {hate[0] && (Object.entries(hate[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx} style={{ border: '1px solid #999' }}><button type="button" onClick={() => handlehate(value)}>{value}</button></li>)))}
+                <h3 className="text-sm mt-10 text-slate-300 mb-2">싫어해⚡</h3>
+                <ul className="flex flex-wrap gap-2.5">
+                    {hate[0] && (Object.entries(hate[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx}><button type="button" className="rounded-lg bg-slate-700 py-2.5 px-5" onClick={() => handlehate(value)}>{value}</button></li>)))}
                 </ul>
-                <br />
-                <ul className="">
-                    {active[0] && (Object.entries(active[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx} style={{ border: '1px solid #999' }}><button type="button" onClick={() => handleactive(value)}>{value}</button></li>)))}
+                <h3 className="text-sm mt-10 text-slate-300 mb-2">행동🤠</h3>
+                <ul className="flex flex-wrap gap-2.5">
+                    {active[0] && (Object.entries(active[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx}><button type="button" className="rounded-lg bg-slate-700 py-2.5 px-5" onClick={() => handleactive(value)}>{value}</button></li>)))}
                 </ul>
-                <br />
-                <button type="submit">내 강아지와 대화하기</button>
+                <button type="submit" className="mt-6 border-0 rounded-xl px-3 py-4 block min-w-min w-4/5 mx-auto bg-blue-600 text-white">내 강아지와 대화하기</button>
             </form>
 
-        </div>
+        </section>
     )
 }

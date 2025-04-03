@@ -1,15 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import LoginPage from "./componets/login";
-
 export default function Home() {
 
 
 
   return (
     <section className="sm:w-2/5 mx-auto bg-secondary h-screen relative">
-      <main className="h-96 bg-white">
-        <div> 메인 이미지</div>
+      <div className="relative h-96">
+        <Image src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/dog//dogmain.png" fill  className="object-contain"  alt="강아지 캐릭터"/>
+      </div>
+      <main className="">
         <LoginPage />
         
       </main>
