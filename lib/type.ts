@@ -99,4 +99,5 @@ export interface DataType {
     dogid: number;
     role: string;
     content: string;
+    name:string;
 }

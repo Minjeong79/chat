@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { customAlphabet } from "nanoid";
-import { DataType } from "../../../../lib/type";
+import { DataType, dogDataType } from "../../../../lib/type";
 import { useStore } from "zustand";
 import { dogNumIdStore, userUidStore } from "@/app/store/store";
-import { dataInsert, dataSelectAll, } from "../../../../lib/db";
+import { dataInsert, dataSelectAll, dogDatas, } from "../../../../lib/db";
 
 export default function AiChatePage() {
   const nanoid = customAlphabet("123456789", 8);
@@ -17,6 +17,7 @@ export default function AiChatePage() {
   const [aiChat, setaiChat] = useState<string>('');
   const [content, setContent] = useState(false);
   const [allData, setAllData] = useState<DataType[]>([]);
+  const [dogName, setDogName] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
@@ -32,6 +33,7 @@ export default function AiChatePage() {
       dogid: dogNumid,
       role: 'user',
       content: useriChate,
+      name:'보호자',
     };
 
     try {
@@ -57,6 +59,7 @@ export default function AiChatePage() {
       console.error('서버 요청 오류:', error);
     }
   }
+  
 
   useEffect(() => {
     if (dogNumid) {
@@ -78,10 +81,19 @@ export default function AiChatePage() {
           console.log('서버 요청 오류:', error);  // 에러 처리
         });
     }
+  
   }, [])
 
   useEffect(() => {
-    if (aiChat) {
+    const handleDogKeyword = async ()=>{
+      const data = await dogDatas(dogNumid);
+      
+      if(data){
+        setDogName(data[0].name);
+      }
+    }
+    handleDogKeyword();
+    if (aiChat && dogName) {
       const talckChat = async () => {
         const datas = {
           id: nid,
@@ -89,7 +101,9 @@ export default function AiChatePage() {
           dogid: dogNumid,
           role: 'aidog',
           content: aiChat,
+          name : dogName
         };
+        console.log(datas);
         await dataInsert(datas);
         setContent(true);
       };
@@ -105,23 +119,24 @@ export default function AiChatePage() {
     handleData();
 
   }, [aiChat, content]);
+  console.log(dogName);
 
-  useEffect(() => {
-
-  }, [])
-
-  return (<section>
-    <ul>
-      {allData.map((item, idx) => (<li key={idx}>{item.content}</li>))}
-    </ul>
-    <form onSubmit={handleSubmit} className="relative h-screen">
-      <div className="absolute bottom-0 w-full bg-secondary border-t border-slate-500 p-2" >
-        <textarea className="h-20 w-full bg-inherit border-0" value={useriChate} onChange={handleChange} placeholder="내용을 입력 해주세요" />
-        <div className="w-full flex justify-end ">
-        <button type="submit" className="rounded-lg bg-blue-600 p-2">보내기</button>
-        </div>
+  return (
+    <section className="h-screen">
+      <div className="h-[740px] p-4">
+        <ul>
+          {allData.map((item, idx) => (<li key={idx} className={item.role === 'user' ? 'speech_box_user' : 'speech_box_ai'}><div>
+            {item.created_at} {item.content}</div></li>))}
+        </ul>
       </div>
+      <form onSubmit={handleSubmit} className="relative">
+        <div className="absolute bottom-0 w-full bg-secondary border-t border-slate-500 p-2" >
+          <textarea className="h-20 w-full bg-inherit border-0" value={useriChate} onChange={handleChange} placeholder="내용을 입력 해주세요" />
+          <div className="w-full flex justify-end ">
+            <button type="submit" className="rounded-lg bg-blue-600 p-2">보내기</button>
+          </div>
+        </div>
 
-    </form>
-  </section>);
+      </form>
+    </section>);
 }
