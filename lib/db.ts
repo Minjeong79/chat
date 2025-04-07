@@ -79,8 +79,6 @@ export async function dogDatas(id: number): Promise<dogDataType[] | null> {
         .eq('id', id)
 
     if (error) {
-        // console.error("Error fetching data:", error); // error 객체 출력
-        // console.error("Error details:", error.message);
         return null;
     }
     return data as dogDataType[];
@@ -97,9 +95,15 @@ export async function dataInsert(datas: DataType) {
                 dogid: datas.dogid,
                 role: datas.role,
                 content: datas.content,
+                name:datas.name,
             },
         ])
         .select();
+        if (error) {
+            console.error("❌ Insert Error:", error.message);
+            console.error("🧠 Details:", error.details);
+            console.error("💡 Hint:", error.hint);
+          }
 }
 
 export async function dataSelectAi(id: number,role:string): Promise<DataType[] | null> {
@@ -116,5 +120,13 @@ export async function dataSelectAll(id: number): Promise<DataType[] | null> {
         .from('chatdata')
         .select('*')
         .eq('dogid', id)
+    return data;
+}
+
+export async function dataUserAll(id: string): Promise<DataType[] | null> {
+    let { data, error } = await supabase
+        .from('chatdata')
+        .select('*')
+        .eq('uuid', id)
     return data;
 }
