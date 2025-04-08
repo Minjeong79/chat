@@ -132,7 +132,7 @@ export default function DogKeyWordPage() {
     }
     return (
         <section className="mx-auto bg-secondary h-screen relative">
-            <h2 className="text-center">{fullName} 의 강아지는?</h2>
+            <h2 className="text-center m-6">{fullName} 의 강아지는?</h2>
            
             <form onSubmit={handleDogsubmit} className="p-2 ">
             <h3 className="text-sm text-slate-300 mb-2">강아지 이름</h3>
@@ -162,7 +162,7 @@ export default function DogKeyWordPage() {
                 <ul className="flex flex-wrap gap-2.5">
                     {active[0] && (Object.entries(active[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx}><button type="button" className="rounded-lg bg-slate-700 py-2.5 px-5" onClick={() => handleactive(value)}>{value}</button></li>)))}
                 </ul>
-                <button type="submit" className="mt-6 border-0 rounded-xl px-3 py-4 block min-w-min w-4/5 mx-auto bg-blue-600 text-white">내 강아지와 대화하기</button>
+                <button type="submit" className="mt-6 border-0 rounded-xl px-3 py-4 block min-w-min w-4/5 mx-auto bg-amber-500 text-white">내 강아지와 대화하기</button>
             </form>
 
         </section>

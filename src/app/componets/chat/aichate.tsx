@@ -6,12 +6,15 @@ import { DataType, dogDataType } from "../../../../lib/type";
 import { useStore } from "zustand";
 import { dogNumIdStore, userUidStore } from "@/app/store/store";
 import { dataInsert, dataSelectAll, dogDatas, } from "../../../../lib/db";
+import { useParams } from 'next/navigation';
 
 export default function AiChatePage() {
   const nanoid = customAlphabet("123456789", 8);
   const nid = Number(nanoid());
-  const dogNumid = useStore(dogNumIdStore, (state) => state.dogNumid);
+  const storeDogId  = useStore(dogNumIdStore, (state) => state.dogNumid);
   const useri = useStore(userUidStore, (state) => state.uid);
+  const params = useParams();
+  const dogNumid = storeDogId && storeDogId !== 0 ? storeDogId : Number(params.id);
 
   const [useriChate, setUseriChate] = useState<string>('');
   const [aiChat, setaiChat] = useState<string>('');
@@ -85,11 +88,14 @@ export default function AiChatePage() {
   }, [])
 
   useEffect(() => {
+    console.log(dogNumid);
     const handleDogKeyword = async ()=>{
       const data = await dogDatas(dogNumid);
       
-      if(data){
+      if (data && data.length > 0 && data[0]?.name) {
         setDogName(data[0].name);
+      } else {
+        console.warn("🐶 dogDatas 결과가 비었거나 형식이 안 맞음", data);
       }
     }
     handleDogKeyword();
@@ -118,19 +124,20 @@ export default function AiChatePage() {
     }
     handleData();
 
-  }, [aiChat, content]);
-  console.log(dogName);
+  }, [aiChat, dogName]);
+  console.log(allData);
 
   return (
-    <section className="h-screen">
-      <div className="h-[740px] p-4">
+    <section className="h-screen flex flex-col">
+      <div className="flex-1 overflow-y-auto p-4 ">
         <ul>
-          {allData.map((item, idx) => (<li key={idx} className={item.role === 'user' ? 'speech_box_user' : 'speech_box_ai'}><div>
-            {item.created_at} {item.content}</div></li>))}
+          {allData.map((item, idx) => (
+            <li key={idx} className={`flex ${item.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={item.role === 'user' ? 'speech_box_user' : 'speech_box_ai'}>{item.content}</div></li>))}
         </ul>
       </div>
       <form onSubmit={handleSubmit} className="relative">
-        <div className="absolute bottom-0 w-full bg-secondary border-t border-slate-500 p-2" >
+        <div className="w-full bg-secondary border-t border-slate-500 p-2" >
           <textarea className="h-20 w-full bg-inherit border-0" value={useriChate} onChange={handleChange} placeholder="내용을 입력 해주세요" />
           <div className="w-full flex justify-end ">
             <button type="submit" className="rounded-lg bg-blue-600 p-2">보내기</button>

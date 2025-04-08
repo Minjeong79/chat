@@ -28,10 +28,11 @@ export default function ChateListPage() {
     return (
         <div>
             <ul className="m-3">
-                {uniqueData.map((item) => <li key={item.id} className="p-3 rounded bg-blue-800">
-                    <Link href={`keywords/mainchate/${item.dogid}`}>
+                {uniqueData.map((item) => <li key={item.id} className="p-3 rounded bg-amber-500 mb-2">
+                    <Link href={`/keyword/mainchate/${item.dogid}`} className="flex">
+                    {item.dogid}
                         <p className="truncate overflow-hidden whitespace-nowrap w-full">
-                            {item.content}
+                        {item.name} / {item.content}
                         </p></Link>
                 </li>)}
             </ul>
