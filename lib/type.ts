@@ -20,6 +20,11 @@ export interface DogIdType {
   setDogNumid: (dogNumid: number) => void;
 }
 
+export interface IdType {
+  numId: number;
+  setNumid: (numId: number) => void;
+}
+
 export interface GenderType {
   gender: string;
 }

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { customAlphabet } from "nanoid";
 import { DataType, dogDataType } from "../../../../lib/type";
 import { useStore } from "zustand";
-import { dogNumIdStore, userUidStore } from "@/app/store/store";
+import { dogNumIdStore, numidStore, userUidStore } from "@/app/store/store";
 import { dataInsert, dataSelectAll, dogDatas, } from "../../../../lib/db";
 import { useParams } from 'next/navigation';
 
@@ -13,6 +13,8 @@ export default function AiChatePage() {
   const nid = Number(nanoid());
   const storeDogId  = useStore(dogNumIdStore, (state) => state.dogNumid);
   const useri = useStore(userUidStore, (state) => state.uid);
+  const setNumid  = useStore(numidStore,(state) => state.setNumid);
+  const numId  = useStore(numidStore,(state) => state.numId);
   const params = useParams();
   const dogNumid = storeDogId && storeDogId !== 0 ? storeDogId : Number(params.id);
 
@@ -77,7 +79,7 @@ export default function AiChatePage() {
         .then(response => response.json())
         .then(data => {
           setaiChat(data.aianswer);
-          setContent(true)
+          setNumid(nid);
           console.log('서버 응답:', data);  // 서버의 응답 처리
         })
         .catch(error => {
@@ -88,7 +90,7 @@ export default function AiChatePage() {
   }, [])
 
   useEffect(() => {
-    console.log(dogNumid);
+   
     const handleDogKeyword = async ()=>{
       const data = await dogDatas(dogNumid);
       
@@ -97,36 +99,39 @@ export default function AiChatePage() {
       } else {
         console.warn("🐶 dogDatas 결과가 비었거나 형식이 안 맞음", data);
       }
+    
     }
     handleDogKeyword();
-    if (aiChat && dogName) {
-      const talckChat = async () => {
+    const insertAiChat = async () => {
+      if (aiChat && dogName) {
         const datas = {
           id: nid,
           uuid: useri,
           dogid: dogNumid,
           role: 'aidog',
           content: aiChat,
-          name : dogName
+          name: dogName
         };
-        console.log(datas);
-        await dataInsert(datas);
-        setContent(true);
-      };
-      talckChat();
-    }
-
+  
+        try {
+          await dataInsert(datas);
+          setContent(true);
+        } catch (error) {
+          console.error("❌ 데이터 저장 실패:", error);
+        }
+      }
+    };
+    insertAiChat();
     const handleData = async () => {
       const data = await dataSelectAll(dogNumid);
       if (data) {
         setAllData(data);
       }
     }
+    
     handleData();
-
-  }, [aiChat, dogName]);
-  console.log(allData);
-
+  }, [aiChat]);
+ 
   return (
     <section className="h-screen flex flex-col">
       <div className="flex-1 overflow-y-auto p-4 ">
