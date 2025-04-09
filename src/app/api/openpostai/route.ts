@@ -13,11 +13,11 @@ export async function POST(req: Request) {
 
     const dogDb = await dogDatas(dataid);
     const aiChatDb = await dataSelectAi(dataid, "aidog");  // AI가 했던 대화
-
+    console.log(aiChatDb);
     const dogIntro = `성별은 ${dogDb?.[0]?.gender}, 이름은 ${dogDb?.[0]?.name} 성격은 ${dogDb?.[0]?.personality} 나이는 ${dogDb?.[0].age} 좋아하는 것 ${dogDb?.[0]?.like} 싫어하는 것 ${dogDb?.[0]?.hate} 하는 행동은 ${dogDb?.[0]?.active}인 강아지로 대화해.`;
     const systemMessage = aiChatDb && aiChatDb.length > 0
-    ? `${aiChatDb} 기존 데이터를 참고해서 대화를 이어가. 인사는 생략하고 자연스럽게 반응해.`
-    : `${dogIntro} 사용자와 처음 대화해. 자연스럽게 반가운 인사를 포함해.`;
+    ? `${aiChatDb} 기존 데이터를 참고해서 대화를 이어가. 인사는 생략하고 자연스럽게 대화하고 사용자가 말할때 까지 기다려`
+    : `${dogIntro} 자연스럽게 반가운 인사를 포함해.`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
