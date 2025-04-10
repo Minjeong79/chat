@@ -49,9 +49,9 @@ export async function dogactive() {
     return data;
 }
 
- export async function doglocation() {
-    
- }
+export async function doglocation() {
+
+}
 
 export async function dogInsert(datas: dogDataType) {
     const { data, error } = await supabase
@@ -95,18 +95,18 @@ export async function dataInsert(datas: DataType) {
                 dogid: datas.dogid,
                 role: datas.role,
                 content: datas.content,
-                name:datas.name,
+                name: datas.name,
             },
         ])
         .select();
-        if (error) {
-            console.error("❌ Insert Error:", error.message);
-            console.error("🧠 Details:", error.details);
-            console.error("💡 Hint:", error.hint);
-          }
+    if (error) {
+        console.error("❌ Insert Error:", error.message);
+        console.error("🧠 Details:", error.details);
+        console.error("💡 Hint:", error.hint);
+    }
 }
 
-export async function dataSelectAi(id: number,role:string): Promise<DataType[] | null> {
+export async function dataSelectAi(id: number, role: string): Promise<DataType[] | null> {
     let { data, error } = await supabase
         .from('chatdata')
         .select('*')
@@ -129,4 +129,12 @@ export async function dataUserAll(id: string): Promise<DataType[] | null> {
         .select('*')
         .eq('uuid', id)
     return data;
+}
+
+export async function dataDelete(id:number) {
+    const { error } = await supabase
+        .from('chatdata')
+        .delete()
+        .eq('id', id)
+
 }

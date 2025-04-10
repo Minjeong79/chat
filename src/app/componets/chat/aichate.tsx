@@ -11,17 +11,19 @@ import { useParams } from 'next/navigation';
 export default function AiChatePage() {
   const nanoid = customAlphabet("123456789", 8);
   const nid = Number(nanoid());
-  const storeDogId  = useStore(dogNumIdStore, (state) => state.dogNumid);
+  const storeDogId = useStore(dogNumIdStore, (state) => state.dogNumid);//상태 id
   const useri = useStore(userUidStore, (state) => state.uid);
-  const setNumid  = useStore(numidStore,(state) => state.setNumid);
-  const numId  = useStore(numidStore,(state) => state.numId);
+  const setNumid = useStore(numidStore, (state) => state.setNumid);
+  const numId = useStore(numidStore, (state) => state.numId);
   const params = useParams();
+  const pid = Number(params.id);
   const dogNumid = storeDogId && storeDogId !== 0 ? storeDogId : Number(params.id);
 
   const [useriChate, setUseriChate] = useState<string>('');
   const [aiChat, setaiChat] = useState<string>('');
   const [content, setContent] = useState(false);
   const [allData, setAllData] = useState<DataType[]>([]);
+  const [allpidData, setAllpidData] = useState<DataType[]>([]);
   const [dogName, setDogName] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -38,7 +40,7 @@ export default function AiChatePage() {
       dogid: dogNumid,
       role: 'user',
       content: useriChate,
-      name:'보호자',
+      name: '보호자',
     };
 
     try {
@@ -64,7 +66,7 @@ export default function AiChatePage() {
       console.error('서버 요청 오류:', error);
     }
   }
-  
+
 
   useEffect(() => {
     if (dogNumid) {
@@ -86,20 +88,29 @@ export default function AiChatePage() {
           console.log('서버 요청 오류:', error);  // 에러 처리
         });
     }
-  
+
+    console.log(pid);
+    const handleData = async () => {
+      const data = await dataSelectAll(pid);
+      if (data) {
+        setAllpidData(data);
+      }
+    }
+
+    handleData();
+
   }, [])
 
   useEffect(() => {
-   
-    const handleDogKeyword = async ()=>{
+    const handleDogKeyword = async () => {
       const data = await dogDatas(dogNumid);
-      
+
       if (data && data.length > 0 && data[0]?.name) {
         setDogName(data[0].name);
       } else {
         console.warn("🐶 dogDatas 결과가 비었거나 형식이 안 맞음", data);
       }
-    
+
     }
     handleDogKeyword();
     const insertAiChat = async () => {
@@ -112,7 +123,7 @@ export default function AiChatePage() {
           content: aiChat,
           name: dogName
         };
-  
+
         try {
           await dataInsert(datas);
           setContent(true);
@@ -128,18 +139,22 @@ export default function AiChatePage() {
         setAllData(data);
       }
     }
-    
+
     handleData();
   }, [aiChat]);
- 
+
   return (
     <section className="h-screen flex flex-col">
       <div className="flex-1 overflow-y-auto p-4 ">
-        <ul>
+        {pid === dogNumid ? <ul>
           {allData.map((item, idx) => (
             <li key={idx} className={`flex ${item.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={item.role === 'user' ? 'speech_box_user' : 'speech_box_ai'}>{item.content}</div></li>))}
-        </ul>
+        </ul>: <ul>
+          {allpidData.map((item, idx) => (
+            <li key={idx} className={`flex ${item.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={item.role === 'user' ? 'speech_box_user' : 'speech_box_ai'}>{item.content}</div></li>))}
+        </ul> }
       </div>
       <form onSubmit={handleSubmit} className="relative">
         <div className="w-full bg-secondary border-t border-slate-500 p-2" >
@@ -150,5 +165,7 @@ export default function AiChatePage() {
         </div>
 
       </form>
+
+
     </section>);
 }

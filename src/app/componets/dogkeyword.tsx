@@ -162,6 +162,7 @@ export default function DogKeyWordPage() {
                 <ul className="flex flex-wrap gap-2.5">
                     {active[0] && (Object.entries(active[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (<li key={idx}><button type="button" className="rounded-lg bg-slate-700 py-2.5 px-5" onClick={() => handleactive(value)}>{value}</button></li>)))}
                 </ul>
+                <p className="text-center">키워드 설정 안할시 ai 자동으로 설정 됩니다.</p>
                 <button type="submit" className="mt-6 border-0 rounded-xl px-3 py-4 block min-w-min w-4/5 mx-auto bg-amber-500 text-white">내 강아지와 대화하기</button>
             </form>
 
