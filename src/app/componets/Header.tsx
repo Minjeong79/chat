@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image";
-import { useState } from "react";
+import {useState } from "react";
 import { supabase } from "../../../utils/supabase/createClinet"
 import { UserType } from "../../../lib/type";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,7 @@ import { userUidStore } from "../store/store";
 export default function HeaderPage() {
     const [useri, setUser] = useState<UserType>();
     const { uid, setUserData } = userUidStore();
-    const router = useRouter();
+    const router = useRouter();    
     const logoutKakao = async () => {
         const { error } = await supabase.auth.signOut();
         if (!error) {
