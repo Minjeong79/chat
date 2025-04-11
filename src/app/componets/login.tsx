@@ -13,7 +13,6 @@ export default function LoginPage() {
 
   const signInWithKakao = async () => {
     try {
-      console.log('click')
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'kakao',
         options: {

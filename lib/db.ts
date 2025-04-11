@@ -131,10 +131,10 @@ export async function dataUserAll(id: string): Promise<DataType[] | null> {
     return data;
 }
 
-export async function dataDelete(id:number) {
+export async function dataDelete(dogid:number) {
     const { error } = await supabase
         .from('chatdata')
         .delete()
-        .eq('id', id)
+        .eq('dogid', dogid)
 
 }
