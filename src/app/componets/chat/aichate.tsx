@@ -7,7 +7,6 @@ import { useStore } from "zustand";
 import { dogNumIdStore, numidStore, userUidStore } from "@/app/store/store";
 import { dataInsert, dataSelectAll, dogDatas, } from "../../../../lib/db";
 import { useParams } from 'next/navigation';
-import Image from "next/image";
 import Loading from "../skeleton/loding";
 
 export default function AiChatePage() {
@@ -16,10 +15,8 @@ export default function AiChatePage() {
   const storeDogId = useStore(dogNumIdStore, (state) => state.dogNumid);//상태 id
   const useri = useStore(userUidStore, (state) => state.uid);
   const setNumid = useStore(numidStore, (state) => state.setNumid);
-  const numId = useStore(numidStore, (state) => state.numId);
   const params = useParams();
   const pid = Number(params.id);
-  // const dogNumid = storeDogId && storeDogId !== 0 ? storeDogId : Number(params.id);
 
   const [useriChate, setUseriChate] = useState<string>('');
   const [aiChat, setaiChat] = useState<string>('');

@@ -10,7 +10,6 @@ import { userUidStore } from "../store/store";
 export default function HeaderPage() {
     const [useri, setUser] = useState<UserType>();
     const { uid, setUserData } = userUidStore();
-    const router = useRouter();    
     
     const logoutKakao = async () => {
         const { error } = await supabase.auth.signOut();
