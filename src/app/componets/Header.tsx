@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image";
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase/createClinet"
 import { UserType } from "../../../lib/type";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ export default function HeaderPage() {
     const [useri, setUser] = useState<UserType>();
     const { uid, setUserData } = userUidStore();
     const router = useRouter();    
+    
     const logoutKakao = async () => {
         const { error } = await supabase.auth.signOut();
         if (!error) {
@@ -21,11 +22,11 @@ export default function HeaderPage() {
           };
           setUserData(user);
           history.replaceState(null, '', window.location.pathname);
-          router.refresh();
-          router.push("/");
+          window.location.replace("/");
         }
         console.log(error);
       }
+     
     return (
     <header className="sm:w-2/5 mx-auto p-2 flex justify-center relative items-center">
         <Link href="/">

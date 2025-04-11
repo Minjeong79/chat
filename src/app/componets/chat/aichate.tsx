@@ -1,12 +1,14 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { customAlphabet } from "nanoid";
-import { DataType, dogDataType } from "../../../../lib/type";
+import { DataType } from "../../../../lib/type";
 import { useStore } from "zustand";
 import { dogNumIdStore, numidStore, userUidStore } from "@/app/store/store";
 import { dataInsert, dataSelectAll, dogDatas, } from "../../../../lib/db";
 import { useParams } from 'next/navigation';
+import Image from "next/image";
+import Loading from "../skeleton/loding";
 
 export default function AiChatePage() {
   const nanoid = customAlphabet("123456789", 8);
@@ -17,7 +19,7 @@ export default function AiChatePage() {
   const numId = useStore(numidStore, (state) => state.numId);
   const params = useParams();
   const pid = Number(params.id);
-  const dogNumid = storeDogId && storeDogId !== 0 ? storeDogId : Number(params.id);
+  // const dogNumid = storeDogId && storeDogId !== 0 ? storeDogId : Number(params.id);
 
   const [useriChate, setUseriChate] = useState<string>('');
   const [aiChat, setaiChat] = useState<string>('');
@@ -25,7 +27,8 @@ export default function AiChatePage() {
   const [allData, setAllData] = useState<DataType[]>([]);
   const [allpidData, setAllpidData] = useState<DataType[]>([]);
   const [dogName, setDogName] = useState<string>('');
-
+  const [isLoading, setIsLoading] = useState(true);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
     setUseriChate(newContent);
@@ -37,7 +40,7 @@ export default function AiChatePage() {
     const datas = {
       id: nid,
       uuid: useri,
-      dogid: dogNumid,
+      dogid: pid,
       role: 'user',
       content: useriChate,
       name: '보호자',
@@ -51,7 +54,7 @@ export default function AiChatePage() {
         headers: {
           'Content-Type': 'application/json', // JSON 형식으로 전송
         },
-        body: JSON.stringify({ dataid: dogNumid, role: 'user', userContent: useriChate }), // 전송할 데이터
+        body: JSON.stringify({ dataid: pid, role: 'user', userContent: useriChate }), // 전송할 데이터
       });
       setUseriChate('');
       if (!response.ok) {
@@ -69,14 +72,14 @@ export default function AiChatePage() {
 
 
   useEffect(() => {
-    if (dogNumid) {
+    if (pid) {
       // 데이터가 있으면, 서버로 POST 요청
       fetch('/api/openpostai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',  // JSON 형식으로 전송
         },
-        body: JSON.stringify({ dataid: dogNumid, role: 'aidog', userContent: '' }),  // 전송할 데이터
+        body: JSON.stringify({ dataid: pid, role: 'aidog', userContent: '' }),  // 전송할 데이터
       })
         .then(response => response.json())
         .then(data => {
@@ -89,21 +92,12 @@ export default function AiChatePage() {
         });
     }
 
-    console.log(pid);
-    const handleData = async () => {
-      const data = await dataSelectAll(pid);
-      if (data) {
-        setAllpidData(data);
-      }
-    }
-
-    handleData();
 
   }, [])
 
   useEffect(() => {
     const handleDogKeyword = async () => {
-      const data = await dogDatas(dogNumid);
+      const data = await dogDatas(pid);
 
       if (data && data.length > 0 && data[0]?.name) {
         setDogName(data[0].name);
@@ -118,7 +112,7 @@ export default function AiChatePage() {
         const datas = {
           id: nid,
           uuid: useri,
-          dogid: dogNumid,
+          dogid: pid,
           role: 'aidog',
           content: aiChat,
           name: dogName
@@ -133,31 +127,45 @@ export default function AiChatePage() {
       }
     };
     insertAiChat();
+
     const handleData = async () => {
-      const data = await dataSelectAll(dogNumid);
+      const data = await dataSelectAll(pid);
       if (data) {
-        setAllData(data);
+        if (pid === storeDogId) {
+          setAllData(data);
+        } else {
+          setAllpidData(data);
+        }
       }
+      setIsLoading(false);
     }
 
     handleData();
   }, [aiChat]);
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'auto' });
+  }, [allData, allpidData]);
   return (
     <section className="h-screen flex flex-col">
-      <div className="flex-1 overflow-y-auto p-4 ">
-        {pid === dogNumid ? <ul>
-          {allData.map((item, idx) => (
-            <li key={idx} className={`flex ${item.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={item.role === 'user' ? 'speech_box_user' : 'speech_box_ai'}>{item.content}</div></li>))}
-        </ul>: <ul>
-          {allpidData.map((item, idx) => (
-            <li key={idx} className={`flex ${item.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={item.role === 'user' ? 'speech_box_user' : 'speech_box_ai'}>{item.content}</div></li>))}
-        </ul> }
+      <div className="flex-1 overflow-y-auto p-4 " >
+        {isLoading ? <Loading /> :
+          <div>
+            {pid === storeDogId ? <ul>
+              {allData.map((item, idx) => (
+                <li key={idx} className={`flex ${item.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={item.role === 'user' ? 'speech_box_user' : 'speech_box_ai'}>{item.content}</div></li>))}
+              <div ref={bottomRef} />
+            </ul> : <ul>
+              {allpidData.map((item, idx) => (
+                <li key={idx} className={`flex ${item.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={item.role === 'user' ? 'speech_box_user' : 'speech_box_ai'}>{item.content}</div></li>))}
+              <div ref={bottomRef} />
+            </ul>}
+          </div>}
       </div>
       <form onSubmit={handleSubmit} className="relative">
-        <div className="w-full bg-secondary border-t border-slate-500 p-2" >
+        <div className="w-full bg-secondary border-t border-slate-500 p-2 " >
           <textarea className="h-20 w-full bg-inherit border-0" value={useriChate} onChange={handleChange} placeholder="내용을 입력 해주세요" />
           <div className="w-full flex justify-end ">
             <button type="submit" className="rounded-lg bg-blue-600 p-2">보내기</button>
