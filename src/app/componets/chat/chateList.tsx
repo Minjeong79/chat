@@ -12,7 +12,6 @@ export default function ChateListPage() {
     const router = useRouter();
     const useri = useStore(userUidStore, (state) => state.uid);
     const [allData, setAllData] = useState<DataType[]>([]);
-    const storeDogId = useStore(dogNumIdStore, (state) => state.dogNumid);
 
     const uniqueData = Array.from(
         new Map(allData.map(item => [item.dogid, item])).values()

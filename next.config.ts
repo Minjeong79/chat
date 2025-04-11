@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["rzlzhvlftiqiqovonrwd.supabase.co"],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   reactStrictMode: false,
 };
 

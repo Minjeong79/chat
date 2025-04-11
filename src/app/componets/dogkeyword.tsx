@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { dogNumIdStore, userUidStore } from "../store/store";
 import { Activetype, GenderType, Hatetype, Liketype, PersonalityType, UserType } from "../../../lib/type";
-import { supabase } from "../../../utils/supabase/createClinet";
 import { dogactive, doggender, doghate, dogInsert, dogLike, dogpersonality } from "../../../lib/db";
 import { customAlphabet } from "nanoid";
 import { useRouter } from "next/navigation";

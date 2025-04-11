@@ -1,7 +1,6 @@
-import { userContentData } from "@/app/actions/actions";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import { dataSelectAi, dogDatas } from "../../../../lib/db";
+import { dataSelectAi } from "../../../../lib/db";
 import { DataType } from "../../../../lib/type";
 
 

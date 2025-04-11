@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { dataSelectAi, dataSelectAll, dogDatas } from "../../../../lib/db";
+import { dataSelectAll, dogDatas } from "../../../../lib/db";
 import { DataType } from "../../../../lib/type";
 
 const openai = new OpenAI({

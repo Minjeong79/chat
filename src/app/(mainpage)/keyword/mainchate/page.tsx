@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { dataUserAll } from "../../../../../lib/db";
 import ChateListPage from "@/app/componets/chat/chateList";
 import ListSkeleton from "@/app/componets/skeleton/list-skeleton";
 import { Suspense } from "react";
