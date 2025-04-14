@@ -126,50 +126,52 @@ export default function DogKeyWordPage() {
         console.log(datas);
     }
     return (
-        <section className="mx-auto bg-secondary h-screen relative">
+        <section className="mx-auto bg-secondary min-h-screen relative flex flex-col">
             <h2 className="text-center m-6">{fullName} 의 강아지는?</h2>
-
-            <form onSubmit={handleDogsubmit} className="p-2 ">
-                <h3 className="text-sm text-slate-300 mb-2">강아지 이름</h3>
-                <div className="flex gap-x-2.5">
-                    <input type="text" maxLength={20} placeholder="강아지 이름" onChange={(e) => setDogName(e.target.value)} required />
-                    <input type="number" min="0" max="20" maxLength={5} placeholder="강아지 나이" onChange={(e) => setDogAge(parseInt(e.target.value))} required />
+            <form onSubmit={handleDogsubmit} className="p-2 flex flex-col flex-1">
+                <div className="flex-1 overflow-y-auto">
+                    <h3 className="text-sm text-slate-300 mb-2">강아지 이름</h3>
+                    <div className="flex gap-x-2.5">
+                        <input type="text" maxLength={20} placeholder="강아지 이름" onChange={(e) => setDogName(e.target.value)} required />
+                        <input type="number" min="0" max="20" maxLength={5} placeholder="강아지 나이" onChange={(e) => setDogAge(parseInt(e.target.value))} required />
+                    </div>
+                    <h3 className="text-sm mt-10 text-slate-300 mb-2">강아지 성별🐶</h3>
+                    <ul className="flex flex-wrap gap-x-2.5">
+                        {gender.map((i, idx) => (
+                            <li key={idx}>
+                                <button type="button" className={`rounded-lg py-2.5 px-5 ${selectGender.includes(i.gender) ? "bg-slate-400" : "bg-slate-700"}`} onClick={() => handlebtn(i.gender)}>{i.gender}</button>
+                            </li>
+                        ))}
+                    </ul>
+                    <h3 className="text-sm mt-10 text-slate-300 mb-2">강아지 성격😏</h3>
+                    <ul className="flex flex-wrap gap-2.5">
+                        {personality[0] && (Object.entries(personality[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (
+                            <li key={idx}>
+                                <button type="button" className={`rounded-lg py-2.5 px-5 ${selectKeyWords.includes(value) ? "bg-slate-400" : "bg-slate-700"}`} onClick={() => handlepersonality(value)}>{value}</button>
+                            </li>)))}
+                    </ul>
+                    <h3 className="text-sm mt-10 text-slate-300 mb-2">좋아해🎈</h3>
+                    <ul className="flex flex-wrap gap-2.5">
+                        {like[0] && (Object.entries(like[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (
+                            <li key={idx}>
+                                <button type="button" className={`rounded-lg  py-2.5 px-5 ${selectlikes.includes(value) ? "bg-slate-400" : "bg-slate-700"}`} onClick={() => handlelike(value)}>{value}</button>
+                            </li>)))}
+                    </ul>
+                    <h3 className="text-sm mt-10 text-slate-300 mb-2">싫어해⚡</h3>
+                    <ul className="flex flex-wrap gap-2.5">
+                        {hate[0] && (Object.entries(hate[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (
+                            <li key={idx}>
+                                <button type="button" className={`rounded-lg py-2.5 px-5 ${selecthates.includes(value) ? "bg-slate-400" : "bg-slate-700"} `} onClick={() => handlehate(value)}>{value}</button>
+                            </li>)))}
+                    </ul>
+                    <h3 className="text-sm mt-10 text-slate-300 mb-2">행동🤠</h3>
+                    <ul className="flex flex-wrap gap-2.5">
+                        {active[0] && (Object.entries(active[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (
+                            <li key={idx}><button type="button" className={`rounded-lg py-2.5 px-5 ${selectactives.includes(value) ? "bg-slate-400" : "bg-slate-700"}`} onClick={() => handleactive(value)}>{value}</button>
+                            </li>)))}
+                    </ul>
                 </div>
-                <h3 className="text-sm mt-10 text-slate-300 mb-2">강아지 성별🐶</h3>
-                <ul className="flex flex-wrap gap-x-2.5">
-                    {gender.map((i, idx) => (
-                        <li key={idx}>
-                            <button type="button" className={`rounded-lg py-2.5 px-5 ${selectGender.includes(i.gender) ? "bg-slate-400" : "bg-slate-700"}`} onClick={() => handlebtn(i.gender)}>{i.gender}</button>
-                        </li>
-                    ))}
-                </ul>
-                <h3 className="text-sm mt-10 text-slate-300 mb-2">강아지 성격😏</h3>
-                <ul className="flex flex-wrap gap-2.5">
-                    {personality[0] && (Object.entries(personality[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (
-                        <li key={idx}>
-                            <button type="button" className={`rounded-lg py-2.5 px-5 ${selectKeyWords.includes(value) ? "bg-slate-400" : "bg-slate-700"}`} onClick={() => handlepersonality(value)}>{value}</button>
-                        </li>)))}
-                </ul>
-                <h3 className="text-sm mt-10 text-slate-300 mb-2">좋아해🎈</h3>
-                <ul className="flex flex-wrap gap-2.5">
-                    {like[0] && (Object.entries(like[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (
-                        <li key={idx}>
-                            <button type="button" className={`rounded-lg  py-2.5 px-5 ${selectlikes.includes(value) ? "bg-slate-400" : "bg-slate-700"}`} onClick={() => handlelike(value)}>{value}</button>
-                        </li>)))}
-                </ul>
-                <h3 className="text-sm mt-10 text-slate-300 mb-2">싫어해⚡</h3>
-                <ul className="flex flex-wrap gap-2.5">
-                    {hate[0] && (Object.entries(hate[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (
-                        <li key={idx}>
-                            <button type="button" className={`rounded-lg py-2.5 px-5 ${selecthates.includes(value) ? "bg-slate-400" : "bg-slate-700"} `} onClick={() => handlehate(value)}>{value}</button>
-                        </li>)))}
-                </ul>
-                <h3 className="text-sm mt-10 text-slate-300 mb-2">행동🤠</h3>
-                <ul className="flex flex-wrap gap-2.5">
-                    {active[0] && (Object.entries(active[0])?.filter(([key]) => key !== "id").map(([key, value], idx) => (
-                        <li key={idx}><button type="button" className={`rounded-lg py-2.5 px-5 ${selectactives.includes(value) ? "bg-slate-400" : "bg-slate-700"}`} onClick={() => handleactive(value)}>{value}</button>
-                        </li>)))}
-                </ul>
+
                 <div className="mt-6">
                     <p className="text-center text-sm p-2 mb-2 text-slate-500">키워드 설정 안할시 ai 자동으로 설정 됩니다.</p>
                     <button type="submit" className=" border-0 rounded-xl px-3 py-4 block min-w-min w-4/5 mx-auto bg-amber-500 text-white mb-5">내 강아지와 대화하기</button>
