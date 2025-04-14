@@ -48,7 +48,7 @@ export default function LoginPage() {
     <section className="lg mx-auto">
       <div className="p-2">{useri?.fullName ? <p className="text-right">{useri.fullName} 보호자 님</p> : <p className="text-center text-lg p-10">어서오세요!<br/>당신의 강아지와 대화 해보세요!</p> } </div> 
       {useri?.uid ? <></> : <button className="absolute v right-0 left-0 border-0 rounded-xl px-3 py-4 block w-4/5 bg-amber-400 mx-auto" onClick={signInWithKakao}>카카오 로그인 </button>}
-      {useri?.uid && <div className="text-center absolute bottom-10 right-0 left-0">
+      {useri?.uid && <div className="text-center absolute bottom-7 right-0 left-0">
         <Link href="/keyword" className="border-0 rounded-xl px-3 py-4 block min-w-min w-4/5 mx-auto bg-amber-500 text-white"> 시작 버튼</Link>
         <Link href="/keyword/mainchate" className="border-0 px-3 py-4 block mx-auto text-base text-slate-500 underline"> 기존 대화로 가기</Link>
       </div>}
