@@ -29,13 +29,13 @@ export default function ChateListPage() {
                 setAllData(datas);
             }
         }
-        hadleAllData();
+        hadleAllData(); 
     }, [allData]);
     return (
         <div>
             <ul className="m-3">
                 {uniqueData.map((item) =>
-                    <li key={item.id} className="p-3 rounded bg-amber-500 mb-2">
+                    <li key={item.id} className="p-3 rounded bg-slate-600 mb-2">
                         <div className="flex items-center gap-2">
                             <Link href={`/keyword/mainchate/${item.dogid}`} className="flex-1 min-w-0">
                                 <p className="truncate overflow-hidden whitespace-nowrap w-4/5">

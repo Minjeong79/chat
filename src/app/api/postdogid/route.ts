@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     return response;
   } catch (error) {
     return NextResponse.json(
-      { message: "서버 오류 발생", error: error.message },
+      { message: "서버 오류 발생" },
       { status: 500 }
     );
   }
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     );
   } catch (error) {
     return NextResponse.json(
-      { message: "서버 오류 발생", error: error.message },
+      { message: "서버 오류 발생" },
       { status: 500 }
     );
   }

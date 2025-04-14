@@ -168,9 +168,6 @@ export default function AiChatePage() {
             <button type="submit" className="rounded-lg bg-blue-600 p-2">보내기</button>
           </div>
         </div>
-
       </form>
-
-
     </section>);
 }
