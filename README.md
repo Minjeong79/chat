@@ -1,6 +1,6 @@
 <h2>나의 강아지와 채팅(Nextjs 구현) </h2>
 
-<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%202.png" alt="나의 강아지와 채팅(Nextjs 구현)"/>
+<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%202.png" alt="나의 강아지와 채팅(Nextjs 구현)" style="width:60%"/>
 <ul>
         <li>배포 url : https://ai-chat-gamma-hazel.vercel.app/</li>
         <li>Test ID : minj92@kakao.com</li>
