@@ -95,21 +95,21 @@
 
 <h3>🗺페이지 별 주요 기능</h3>
 <h4>[ 첫 페이지 ] </h4>
-<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%202.png" alt="첫페이지"/>
+<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%202.png" alt="첫페이지" style="width:30%"/>
 <ul>
       <li>로그인이 되어 있지 않은 경우 : SNS 로그인 페이지</li>
      
 </ul>
 
 <h4>[ 시작 페이지 ] </h4>
-<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%203.png" alt="시작 페이지"/>
+<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%203.png" alt="시작 페이지" style="width:30%"/>
 <ul>
       <li>로그인 후 시작 페이지 / 기존 대화로 이동 </li>
 </ul>
 
 
 <h4>[ 키워드 페이지 ] </h4>
-<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%204.png" alt="키워드 페이지"/>
+<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%204.png" alt="키워드 페이지" style="width:30%"/>
 <ul>
       <li>사용자 닉네임이 표시 됩니다.</li>
       <li>강아지의 이름, 나이를 작성합니다.</li>
@@ -118,14 +118,14 @@
 
 
 <h4>[ 채팅 페이지 ] </h4>
-<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%206.png" alt="채팅 페이지"/>
+<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%206.png" alt="채팅 페이지" style="width:30%"/>
 <ul>
       <li>설정한 키워드의 강아지와 대화를 할 수 있습니다.</li>
 </ul>
 
 
 <h4>[ 채팅 목록 페이지 ] </h4>
-<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%205.png" alt="채팅 목록 페이지"/>
+<img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%205.png" alt="채팅 목록 페이지" style="width:30%"/>
 <ul>
       <li>기존에 채팅 목록 페이지 입니다.</li>
 </ul>
