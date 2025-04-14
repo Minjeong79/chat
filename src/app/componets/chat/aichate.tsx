@@ -69,6 +69,18 @@ export default function AiChatePage() {
 
 
   useEffect(() => {
+    const handleDogKeyword = async () => {
+      const data = await dogDatas(pid);
+
+      if (data && data.length > 0 && data[0]?.name) {
+        setDogName(data[0].name);
+      } else {
+        console.warn("🐶 dogDatas 결과가 비었거나 형식이 안 맞음", data);
+      }
+
+    }
+    handleDogKeyword();
+    
     if (pid) {
       // 데이터가 있으면, 서버로 POST 요청
       fetch('/api/openpostai', {
@@ -93,18 +105,9 @@ export default function AiChatePage() {
   }, [])
 
   useEffect(() => {
-    const handleDogKeyword = async () => {
-      const data = await dogDatas(pid);
-
-      if (data && data.length > 0 && data[0]?.name) {
-        setDogName(data[0].name);
-      } else {
-        console.warn("🐶 dogDatas 결과가 비었거나 형식이 안 맞음", data);
-      }
-
-    }
-    handleDogKeyword();
+    
     const insertAiChat = async () => {
+      if (!aiChat || !dogName) return;
       if (aiChat && dogName) {
         const datas = {
           id: nid,
@@ -117,7 +120,16 @@ export default function AiChatePage() {
 
         try {
           await dataInsert(datas);
-          setContent(true);
+
+          const refreshed  = await dataSelectAll(pid);
+          if (refreshed) {
+            if (pid === storeDogId) {
+              setAllData(refreshed);
+            } else {
+              setAllpidData(refreshed);
+            }
+          }
+          setIsLoading(false);
         } catch (error) {
           console.error("❌ 데이터 저장 실패:", error);
         }
@@ -125,19 +137,11 @@ export default function AiChatePage() {
     };
     insertAiChat();
 
-    const handleData = async () => {
-      const data = await dataSelectAll(pid);
-      if (data) {
-        if (pid === storeDogId) {
-          setAllData(data);
-        } else {
-          setAllpidData(data);
-        }
-      }
-      setIsLoading(false);
-    }
+    // const handleData = async () => {
+     
+    // }
 
-    handleData();
+    // handleData();
   }, [aiChat]);
 
   useEffect(() => {
