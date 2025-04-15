@@ -93,6 +93,7 @@ export default function AiChatePage() {
         .then(response => response.json())
         .then(data => {
           setaiChat(data.aianswer);
+          setIsLoading(true);
           setNumid(nid);
           console.log('서버 응답:', data);  // 서버의 응답 처리
         })
@@ -136,12 +137,6 @@ export default function AiChatePage() {
       }
     };
     insertAiChat();
-
-    // const handleData = async () => {
-     
-    // }
-
-    // handleData();
   }, [aiChat]);
 
   useEffect(() => {
