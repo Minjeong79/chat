@@ -35,24 +35,38 @@ export default function DogKeyWordPage() {
         setSelectGender(i);
     }
     const handlepersonality = (value: string) => {
-        const combinedValues = [...selectKeyWords, value];
-        const arr: any = [... new Set(combinedValues)]
-        setSelectKeyWords(arr);
+        if (selectKeyWords.includes(value)) {
+            const updated = selectKeyWords.filter((item) => item !== value);
+            setSelectKeyWords(updated);
+        } else {
+            setSelectKeyWords([...selectKeyWords, value]);
+        }
     }
     const handlelike = (value: string) => {
-        const combinedValues = [...selectlikes, value];
-        const arr: any = [... new Set(combinedValues)]
-        setSelectLikes(arr);
-    }
+        if (selectlikes.includes(value)) {
+            const updated = selectlikes.filter((item) => item !== value);
+            console.log(updated);
+            setSelectLikes(updated);
+        } else {
+            setSelectLikes([...selectlikes, value]);
+        }
+    };
+    
     const handlehate = (value: string) => {
-        const combinedValues = [...selecthates, value];
-        const arr: any = [... new Set(combinedValues)]
-        setSelectHates(arr);
+        if (selecthates.includes(value)) {
+            const updated = selecthates.filter((item) => item !== value);
+            setSelectHates(updated);
+        } else {
+            setSelectHates([...selecthates, value]);
+        }
     }
     const handleactive = (value: string) => {
-        const combinedValues = [...selectactives, value];
-        const arr: any = [... new Set(combinedValues)]
-        setSelectActives(arr);
+        if (selectactives.includes(value)) {
+            const updated = selectactives.filter((item) => item !== value);
+            setSelectActives(updated);
+        } else {
+            setSelectActives([...selectactives, value]);
+        }
     }
 
     useEffect(() => {

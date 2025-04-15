@@ -35,8 +35,8 @@ export async function POST(req: Request) {
     console.log(previousChats);
     const dogIntro = `성별은 ${dogDb?.[0]?.gender}, 이름은 ${dogDb?.[0]?.name} 성격은 ${dogDb?.[0]?.personality} 나이는 ${dogDb?.[0].age} 좋아하는 것 ${dogDb?.[0]?.like} 싫어하는 것 ${dogDb?.[0]?.hate} 하는 행동은 ${dogDb?.[0]?.active}인 강아지로 대화해.`;
     const systemMessage = aiChatDb && aiChatDb.length > 0
-      ? `${previousChats} 강아지 처럼 기존 대화를 바탕으로 자연 스럽게 강아지 처럼 대화 해 `
-      : `${dogIntro} 자연스럽게 반가운 인사를 포함해.`;
+      ? `${previousChats} 강아지 처럼 기존 대화를 바탕으로 자연 스럽게 강아지 처럼 대화 해 말을 1줄 이하 짧게 하고 보호자에게 질문도 아주 가끔씩 해`
+      : `${dogIntro} 자연스럽게 반가운 인사하고 설정을 말하지마`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -59,6 +59,7 @@ export async function POST(req: Request) {
       store: true,
     });
 
+    const fullAnswer = response.choices[0].message.content;
     return NextResponse.json({ aianswer: response.choices[0].message.content });
   } catch (error) {
     return NextResponse.json({ error: "AI 응답 생성 실패" }, { status: 500 });
