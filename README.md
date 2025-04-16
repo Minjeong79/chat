@@ -1,11 +1,17 @@
 <h2>나의 강아지와 채팅(Nextjs 구현) </h2>
 
 <img src="https://rzlzhvlftiqiqovonrwd.supabase.co/storage/v1/object/public/git//Frame%202.png" alt="나의 강아지와 채팅(Nextjs 구현)" style="width:30%"/>
-계정은 첫 로그인으로 부터 12시간이 지나야 가능합니다
+카카오 로그인(인증으로 인해 첫 로그인 후 12시간 이후에 로그인 가능합니다.)
 <ul>
         <li>배포 url : https://ai-chat-gamma-hazel.vercel.app/</li>
         <li>Test ID : minj92@kakao.com</li>
         <li>Test PW : fkdnxj0906!!</li>
+</ul>
+Git로그인(바로 로그인 가능 합니다.)
+<ul>
+        <li>배포 url : https://ai-chat-gamma-hazel.vercel.app/</li>
+        <li>Test ID : jmjeong72@gmail.com</li>
+        <li>Test PW : xptmxmrpwjd12!!</li>
 </ul>
 
 
